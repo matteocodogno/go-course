@@ -749,7 +749,7 @@ for key, value := range idMap {
   - Name, Address, Phone
 
 ```go
-type struct Person {
+type Person struct {
 	name string
 	address string
 	phone string
@@ -775,7 +775,7 @@ x = p1.address
 - Initialize fields to zero (for `Person` structure this means that all fields are initialized with empty string)
   `p1 := new(Person)`
 - Can initialize using a struct literal
-  `p1 := Person(name: "joe", address: "a st.", phone: "123")`
+  `p1 := Person{name: "joe", address: "a st.", phone: "123"}`
 
 ## Protocol format
 
