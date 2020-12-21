@@ -776,3 +776,128 @@ x = p1.address
   `p1 := new(Person)`
 - Can initialize using a struct literal
   `p1 := Person(name: "joe", address: "a st.", phone: "123")`
+
+## Protocol format
+
+- RFC Request for comments
+- Definitions of internet protocols and formats
+- Example protocols:
+  - HTML (1866)
+  - URI (3986)
+  - HTTP (2616)
+
+### Protocol package
+
+- Golang provides packages for important  RFCs
+- Function that encode and decode protocol format
+  e.g. net/http - web communication protocol
+  `http.Get(www.uci.edu)`
+  e.g. net TCP/IP and socket programming
+  `net.Dial("tcp", "uci.edu:80")`
+  
+### JSON
+
+- JavaScript Object Notation
+- RFC 7159
+- Format to represent structured information
+- Attribute-value pairs
+  - struct or map
+- Basic value types
+  - Bool, number, string, array, "object"
+
+### JSON properties
+
+- All unicode, all represented as unicode characters
+- Human-readable
+- Fairly compact representation
+- Types can be combined recursively
+
+### JSON Marshalling
+
+- Generating JSON representation from an object
+
+```go
+type struct Person {
+	name string
+	addr string
+	phone string
+}
+
+p1 := Person(name: "Joe", addr: "a st.", phone: "123")
+
+barr, err := json.Marshal(p1)
+```
+
+- `Marshal` returns JSON rapresentation as `[]byte`
+
+### JSON Unmarshalling
+
+```go
+var p2 Person
+
+err := json.Unmarshal(barr, &p2)
+```
+
+- `Unmarshal` converts a JSON `[] byte` into a Go object
+- Object must "fit" JSON `[]byte`
+
+## Files
+
+- Linear access, not random access
+  - Mechanical delay
+- Basic operations
+  1. Open - get handle for access
+  2. Read - read bytes into `[]byte`
+  3. Write - write `[]byte` into file
+  4. Close - release handle
+  5. Seek - move read/write head
+  
+### `ioutil` File Read
+
+- "io/util" package has basic functions
+  `dat, e := ioutil.ReadFile("test.txt")`
+- `dat` is `[]byte` filled with contents of entire file
+- Explicit open/close are not necessary
+- Large files cause a problem
+
+### `ioutil` File Write
+
+```go
+dat := "Hello, World"
+
+err := ioutil.WriteFile("outfile.txt", dat, 0777)
+```
+
+- Writes `[]byte` to file
+- Creates a file
+- Unix-style permission bytes
+
+### OS package File Access
+
+- `os.Open()` opens a file
+  - returns a file descriptor (File)
+- `os.Close()` closes a file
+- `os.Read()` reads from a file into a `[]byte`
+  - fills the `[]byte`
+  - control the amount read
+- `os.Write` writes a `[]byte` into a file
+
+```go
+f, err := os.Open("dt.txt")
+barr := make([]byte, 10)
+nb, err := f.Read(barr)
+f.Close
+```
+
+- Reads and fills `barr`
+- `Read` returns # of bytes read
+- May be less than `[]byte` length
+
+```go
+f, err := os.Create("dt.txt")
+
+bar := []byte{1, 2, 3}
+nb, err := f.Write(barr)
+nb, err := f.WriteString("Hi")
+```
+
