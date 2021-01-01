@@ -901,3 +901,140 @@ nb, err := f.Write(barr)
 nb, err := f.WriteString("Hi")
 ```
 
+## Functions
+
+`main` function is a special function you never call this function, when you run the program the `main` function is invoked and rum immediately.  
+
+```go
+func PrintHello() {
+	fmt.Println("Hello, World")
+}
+
+func func main() {
+    PrintHello()
+}
+```
+
+e.g. parameters and arguments
+
+```go
+func foo(x int, y int) {
+	fmt.Println(x*y)
+}
+
+func main() {
+	foo(2, 3)
+}
+```
+
+List arguments of same type
+
+```go
+func foo(x, y int) { ... }
+```
+
+Return values
+
+```go
+func foo(x int) int {
+	return x + 1
+}
+
+y := foo(1)
+```
+
+Multiple return values
+
+```go
+func foo2(x int) (int, int) {
+	return x, x + 1
+}
+
+a, b := foo2(3)
+```
+
+### Call by value, reference
+
+- Call by value
+  - passed arguments are copied to parameters
+  - Modifing parameters has no effect outside the  function
+
+```go
+func foo(y int) {
+	y = y + 1
+}
+
+func main() {
+	x := 2
+	foo(x)
+	fmt.Println(x)
+}
+```
+
+- Call by reference
+  - Programmer can pass a pointer as an argument
+  - Called function has direct access to caller variable in memory
+
+```go
+func foo(y *int) {
+*y = *y + 1
+}
+
+func main() {
+x := 2
+foo(&x)
+fmt.Println(x)
+}
+```
+
+### Passing arrays and slices
+
+- Arrays arguments are copied
+- Arrays can be big, and this can be a problem
+
+```go
+func foo(x [3]int) int {
+	return x[0]
+}
+
+func main() {
+	a := [3]int{1, 2, 3}
+	fmt.Println(foo(a))
+}
+```
+
+- Possible to pass array pointers
+
+```go
+func foo(x *[3]int) int {
+    (*x)[0] = (*x[0]) + 1
+}
+
+func main() {
+    a := [3]int{1, 2, 3}
+    foo(&a)
+    fmt.Println(a)
+}
+```
+
+- Messy and unnecessary
+- Pass slices instead!
+- Slices contain a pointer to the array
+- Passing a slice copies the pointer
+
+
+```go
+func foo(sli []int) []int {
+    sli[0] = sli[0] + 1
+    return sli
+}
+
+func main() {
+    a := []int{1, 2, 3}
+    foo(a)
+    fmt.Println(a)
+}
+```
+
+
+
