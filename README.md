@@ -1036,5 +1036,155 @@ func main() {
 }
 ```
 
+## Functions
 
+Function can be treated like other types
+
+### First-Class Values
+
+- Variable can be declared with a function type
+- Can be created **dynamically**
+- Can be passed as arguments and returned as values
+- Can be stored in a data structures
+  
+### Variables as functions
+
+```go
+var funcVar func(int) int
+func incFn(x int) int {
+	return x+1
+}
+func main() {
+	funcVar = incFn
+	fmt.Println(funcVar(1))
+}
+```
+
+### Functions as Arguments
+
+```go
+func applyIt(afunct func (int) int, val int) int {
+	return afunct(int)
+}
+
+func incFn(x int) int { return x+1 }
+func decFn(x int) int { return x-1 }
+
+func main() {
+	fmt.Println(applyIt(incFn, 2))
+	fmt.Println(applyIt(decFn, 2))
+}
+```
+
+### Anonymous Functions
+
+Function without a name
+
+```go
+func applyIt(afunct func (int) int, val int) int {
+    return afunct(val)
+}
+
+
+func main() {
+    fmt.Println(applyIt(func(x int) int { return x+1 }, 2))
+}
+```
+
+### Returning functions
+
+```go
+func MakeDistOrigin(o_x, o_y float64) func (float64, float64) float64 {
+	fn := func (x, y float64) float64 {
+		return math.Sqrt(math.Pow(x - o_x, 2) + math.Pow(y - o_y, 2))
+    }
+
+    return fn
+}
+
+func main() {
+	Dist1 := MakeDistOrigin(0,0)
+	Dist2 := MakeDistOrigin(2,2)
+	
+	fmt.Println(Dist1(2,2))
+	fmt.Println(Dist2(2,2))
+}
+```
+
+### Environment of a Function
+
+- Set of all names that are valid inside a function
+- Names defined locally, in the function
+- Lexical scoping
+- Environment includes names defined in the block where the function is defined
+
+```go
+var x int
+func foo(y int) {
+	x := 1
+}
+```
+
+### Closure
+
+- Function + its environment
+- When functions are passed/returned, their environment comes with them!
+
+### Variable Argument Number
+
+- Functions can take a variable number of arguments
+- Use ellipsis ... to specify
+- Treated as a slice inside the function
+
+```go
+func getMax(vals ...int) int {
+	maxV := -1
+	for _, v := range vals {
+		if v > maxV {
+			maxV = v
+        } 
+    }
+    
+    return maxV
+}
+```
+
+### Variadic Slice Arguments
+
+```go
+func main() {
+	fmt.Println(getMax(1, 2, 3, 4, 5))
+	vslice := []{1, 3, 6, 4}
+	fmt.Println(getMax(vslice...))
+}
+```
+
+- Can pass a slice to a variadic function
+- Needed the ... suffix
+
+### Deferred function calls
+
+- Call can be deferred until the  surrounding function complete
+- Typically, used for cleanup activities
+
+```go
+func func main() {
+    defer fmt.Println("bye!")
+    
+    defer fmt.Println("Hello!")
+}
+```
+
+### Deferred call arguments
+
+- Arguments of a deferred call are evaluated immediately
+
+```go
+func func main() {
+    i := 1
+    defer fmt.Println(i+1)
+    i++
+    defer fmt.Println("Hello")
+}
+```
 
