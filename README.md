@@ -1188,3 +1188,196 @@ func func main() {
 }
 ```
 
+## Object-Orientation in GO
+
+### Classes  
+
+- Collection of data fields and functions that share a well-defined responsibility
+- Classes are a template
+- Contains data fields, not data
+
+### Object
+
+- Instance of a class
+- Contains real data
+
+### Encapsulation
+
+- Data can be protected from the programmer
+- Data can be accessed only using methods
+- Maybe we do not trust the programmer to keep data consistent
+
+### No "Class" keyword
+
+- Most of OO languages have class keyword
+- Data fields and methods  are defined  inside a class block
+
+### Associating methods with data
+
+- Method has a **receiver type** that it is associate with 
+- Use dot notation to call the method
+
+```go
+type MyInt int
+
+func (mi MyInt) Double () int {
+	return int(mi*2)
+}
+
+func main() {
+    v := MyInt(3)
+    fmt.Println(v.Double())
+}
+```
+
+- Type must be defined in the same package as the method that you are associating with it
+
+### Implicit method argument
+
+- Object of receiver type is an implicit argument to the function
+  - Call by Value
+
+### Structs, again
+
+- Struct types compose data fields
+
+```go
+type Point struct {
+	x float64
+	y float64
+}
+```
+
+- Traditional feature of classes
+
+### Structs with methods
+
+- Structs and methods together allow arbitrary data and functions to be composed
+
+```go
+func (p Point) DistoToOrigin() {
+	t := math.Pow(p.x, 2) + math.Pow(p.y, 2)
+	return math.Sqrt(t)
+}
+
+func main() {
+    p1 := Point(3, 4)
+    fmt.Println(p1.DistToOrigin())
+}
+```
+
+### Controlling data access
+
+- Can defined **public function** to allow access to hidden data
+
+```go
+package data
+
+import "fmt"
+
+var x int = 1
+func PrintX() { fmt.Println(x) }
+```
+
+```go
+package main
+
+import "data"
+
+func main() {
+  data.PrintX()
+}
+```
+
+- public functions inside the package have to start with a capital letter
+
+### Controlling access to Structs
+
+- Hide fields of structs by starting field name with lower-case letter
+- Defined public methods which access hidden data 
+
+```go
+package data
+
+type Point struct {
+	x float64
+	y float64
+}
+
+func (p *Point) InitMe(xn, yn float64) {
+	p.x = xn
+	p.y = yn
+}
+```
+
+- Need `InitMe()` to assign hidden data fields
+
+```go
+func (p *Point) Scale(v float64) {
+	p.x = p.x * v
+	p.y = p.y * v
+}
+
+func (p *Point) PrintMe() {
+	fmt.Println(p.x, p.y)
+}
+
+func main() {
+     var p data.Point
+     p.InitMe(3, 4)
+     p.Scale(2)
+     p.PrintMe()
+}
+```
+
+- Access to hidden fields only through public methods
+
+### Limitation fo methods
+
+- Receiver is passed  implicitly as an argument to the method
+- Method cannot modify the data inside the receiver
+- Example: `OffsetX()` should increase x coordinate
+
+```go
+func main() {
+	p1 := Point{3, 4}
+	p1.OffsetX(5)
+}
+```
+
+#### Large receiver
+
+- If receiver is large, lots of copying is required
+
+```go
+type Image [100][100]int
+func main() {
+    i1 := GrabImage()
+    i1.BlurImage()
+}
+```
+
+- 10.000 ints copied to `BlurImage()`
+
+### Pointer Receiver
+
+```go
+func (p *Point) OffsetX(v float64) {
+	p.x = p.x + v
+}
+```
+
+- Receiver can be a pointer to a type
+- Call by reference, pointer is passed to the method
+- No need to dereference, Point is referenced as `p` not `*p`
+- Dereferencing is automatic with `.` operator
+- Do not need to reference when calling the method e.g. `p.ScaleX(3)` 
+
+### Using Pointer Receivers
+
+- Good programming practice:
+  1. All methods for a type have pointer receivers, or 
+  2. All methods for a type have non-pointer receivers
+- Mixing pointer/non-pointer receivers for a type will get confusing
+  - Pointer receiver allows modification
+
