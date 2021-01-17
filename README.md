@@ -1381,3 +1381,184 @@ func (p *Point) OffsetX(v float64) {
 - Mixing pointer/non-pointer receivers for a type will get confusing
   - Pointer receiver allows modification
 
+## Polimorphism
+
+- Ability for an object to have different "forms" depending on the context
+- Example: `Area()` function
+  - Rectangle: area = base * height 
+  - Triangle: area = 0.5 * base * height
+- Identical at a high level of abstraction
+- Different al a low level of abstraction
+
+**Go does not have inheritance**
+
+## Interfaces
+
+- Set of method signatures
+  - Implementation is NOT defined
+- Used to express conceptual similarity between types
+- Example: Shape2D interface
+- All 2D shapes mush have `Area()` and `Perimeter()`
+
+### Satisfying an Interface
+
+- Type satisfies an interface if type defines all methods specified in the interface
+  - Same method signatures
+- Rectangle and Triangle types satisfy the Shape2D interface
+  - Mush have `Area()` and `Perimeter()` methods
+  - Additional methods are ok
+- Similar to inheritance  with overriding
+
+### Defining an interface type
+
+```go
+type Shape2D interface {
+	Area() float64
+	Perimeter() float64
+}
+
+type Triangle {...}
+func (t Triangle) Area() float64 {...}
+func (t Triangle) Perimeter() float64 {...}
+```
+
+No need to state it explicity
+
+## Concrete vs Interface Types
+
+### Concrete types
+
+- Specify the exact representation of the data and methods
+- complete method implementation is included
+
+### Interface types
+
+- Specifies some method signatures
+- Implementations are abstracted
+
+### Interface value
+
+- Can be treated like  other values
+  - assigned to variables
+  - passed, returned
+  - Interface value has 2 components
+    1. Dynamic type: Concrete type which is assigned to
+    2. Dynamic value: Value of the dynamic type
+    - Interface value is actually a pair (dynamic type and dynamic value)
+- An interface can have a nil dynamic value
+
+```go
+var s1 Speaker
+var d1 *Dog
+s1 = d1
+```
+
+- d1 has not concrete value yet
+- s1 has a dynamic type but not dynamic value
+- Nil dynamic value - can still call the `Speak()` method of s1
+- Does not need a dynamic value to call
+- Need to check inside the method
+
+```go
+func (d *Dog) Speak() {
+	if d == nil {
+		fmt.Println("")
+    } else {
+    	fmt.Println(d.name)
+    }
+}
+
+var s1 Speaker
+var d1 *Dog
+s1 = d1
+s1.Speak()
+```
+
+### Nil interface value
+
+- interface with nil dynamic type
+- very different  from an interface with a nil dynamic value
+- e.g. `var s1 Speaker` cannot call a method, runtime error
+
+
+## Empty interface
+
+- Empty interfaces specifies no methods
+- All types satisfy the empty interface
+- Use it to have a function accept any type as parameter
+
+```go
+func PrintMe(val interface{}) {
+	fmt.Println(val)
+}
+```
+
+## Type assertions
+
+### Concealing type differences
+
+- Interfaces hide the difference between types
+- sometimes you need to treat different types in different ways
+
+### Exposing type differences
+
+- Exmaple: Graphic program
+- `DrawShape()` will draw any shape
+- Underlying API has different drawing functions for each shape
+  - `DrawRect(r Rectangle) {...}`
+  - `DrawTriangle(t Triangle) {...}`
+- Concrete type of shape `s` must be determined
+
+### Type assertions for disambiguation
+
+- Type assertion can be used to determine and extract the underlying concrete type
+
+```go
+func DrawShape(s Shape2D) bool {
+	rect, ok := s.(Rectangle)
+	if ok {
+		DrawRect(rect)
+    }
+    tri, ok := s.(Triangle)
+    if ok {
+    	DrawTriangle(tri)
+    }
+}
+```
+
+- Type assertion extracts Rectangle from Shape2D (concrete type in parentheses)
+- If interface contains concrete type
+  - rect == concrete, ok == true
+- If interface does not contain concrete type
+  - rect == zero, ok == false
+
+### Type Switch
+
+- Switch statement used with a type assertion
+
+```go
+func DrawShape(s Shape2D) {
+    switch sh := s.(type) {
+    case Rectangle: 
+    	DrawRect(sh)
+    case Triangle:
+    	DrawTriangle(sh)
+    }
+}
+```
+
+## Error Handling
+
+### Error interface
+
+- Many Go programs return error interface objects to indicate errors
+
+```go
+type error interface {
+	Error() string
+}
+```
+
+- Correct operation: error == nil
+- Incorrect operation: `Error()` prints the error message
+
