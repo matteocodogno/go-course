@@ -10,37 +10,50 @@
 ## Code runs fast
 
 Three categories of languages:
-1. machine language - low level language and it's directly executed on the CPU (simple, small test. e.g. add, move, read from registry etc..) 
-2. assembly language - equivalent to machine language but easier to read. Map one-to-one the machine language (not completely but very close) equivalent, but you can read it because it's english. When you want to something very fast and really efficiently then you'll write it directly in assembly language.
+
+1. machine language - low level language and it's directly executed on the CPU (simple, small test. e.g. add, move, read
+   from registry etc..)
+2. assembly language - equivalent to machine language but easier to read. Map one-to-one the machine language (not
+   completely but very close) equivalent, but you can read it because it's english. When you want to something very fast
+   and really efficiently then you'll write it directly in assembly language.
 3. high level language - everything else, they are much easier to use. Go is high level language!
 
 > All software must be translated into the machine language of processor
 
-If you've got a processor, i7 or whatever processor you're working with, that processor does not know C or Java or Python or Go or C++ or any of those, right?  
-All it knows is its own machine language, say x86 machine language. So C, Python, Java or whatever it is, has to be translated. There is software translation step that has to go on:
-1. **Compiled** - high level language to machine code happened one time before you execute the code. Translation occurs once, and when you run the code you are just running the machine code directly.
-2. **interpreted** - instructions are translated while the code is excuted. So the translations occurs every time you run the Python code and so that slows you down.
+If you've got a processor, i7 or whatever processor you're working with, that processor does not know C or Java or
+Python or Go or C++ or any of those, right?  
+All it knows is its own machine language, say x86 machine language. So C, Python, Java or whatever it is, has to be
+translated. There is software translation step that has to go on:
 
-Compiled code is generally faster to execute.
-Interpreters make coding easier: manage memory automatically and infer variable types.
+1. **Compiled** - high level language to machine code happened one time before you execute the code. Translation occurs
+   once, and when you run the code you are just running the machine code directly.
+2. **interpreted** - instructions are translated while the code is excuted. So the translations occurs every time you
+   run the Python code and so that slows you down.
 
-Go is a good compromise between compiled and interpreted languages, it is compiled language but it has some good features of interpreted languages.
+Compiled code is generally faster to execute. Interpreters make coding easier: manage memory automatically and infer
+variable types.
+
+Go is a good compromise between compiled and interpreted languages, it is compiled language but it has some good
+features of interpreted languages.
 
 ## Garbage collection
 
 Automatic memory management
+
 - where should memory be allocated?
 - when can memory be deallocated?
 
 Manual memory management is hard
+
 - Deallocated too early, false memory access
 - Deallocated too late, wasted memory
 
-Go has garbage collector, downside is that it slows  down exection a bit, but it is an efficient garbage collector.
+Go has garbage collector, downside is that it slows down exection a bit, but it is an efficient garbage collector.
 
 ## Objects
 
-Go language is object-oriented -> weakly object-oriented. It implements objects but they have fewer features than you would see in another object-oriented language.
+Go language is object-oriented -> weakly object-oriented. It implements objects but they have fewer features than you
+would see in another object-oriented language.
 
 ### Object-oriented
 
@@ -50,7 +63,7 @@ Go language is object-oriented -> weakly object-oriented. It implements objects 
     - generic type -> `ints` have data (the number) and functions (*, +, - etc.)
     - e.g. 3d geomtric applcication -> `point(x, y, z) { DistToOrigin(), Quadrant() }`  
       difference between object and class
-      
+
 ### Object in Go
 
 - does not use `class` but use `structs`
@@ -58,7 +71,7 @@ Go language is object-oriented -> weakly object-oriented. It implements objects 
     - no inheritance
     - no constructors
     - no generics
-    
+
 This makes it easier to code and it makes it efficient to run. But if you like these features this is a disadvantage.
 
 ## Concurrency
@@ -73,7 +86,8 @@ How concurrency get around these performance limitations.
 - Moore's Law used to help performance  
   number of transistors on a chip doubles every 18 months.
 - more transistors used to lead to higher clock frequencies  
-  Programmers would get lazy, because they knew that pretty soon hardware people would double the number of transistors and fixed all their problems for them, but that si not happening anymore, because Moore's Law had to slow down.
+  Programmers would get lazy, because they knew that pretty soon hardware people would double the number of transistors
+  and fixed all their problems for them, but that si not happening anymore, because Moore's Law had to slow down.
 - Power/temperature constraints limit clock frequency now  
   So you can't keep increasing the clock rates.
 
@@ -88,21 +102,23 @@ How do you get performance improvement even though you can't just crank up the c
     - when do tasks start/stop?
     - what if one task needs data from another task? How does this data transfer occur?
     - Do tasks conflicts in memory?  
-    You do not want one task to write to its variable A and that overrides vairable B of another task.
-    Code that can be executed in parallel can be difficult.
+      You do not want one task to write to its variable A and that overrides vairable B of another task. Code that can
+      be executed in parallel can be difficult.
 
 ### Concurrency programming
 
 - Concurrency is management of multiple tasks at the same time  
-  They might not actually be executed at the same time (e.g. single core processor) but they are alive at the same time. So they could be executed at the same time if you had the resource.
+  They might not actually be executed at the same time (e.g. single core processor) but they are alive at the same time.
+  So they could be executed at the same time if you had the resource.
 - Key requirement for large systems  
   You want to be able to consider 20 things at one time.
 - Concurrent programming enables parallelism
     - Management of task execution
     - Communication between tasks
     - Synchronization between tasks  
-    So You can not just take a piece of regular code and say oaky I'm going to run it on 5 cores, that won't work. The programmer has to decide hot to partition this code (I want this data here and this data there etc.).  
-  The program is making these decisions that allow these things to run in parallel.
+      So You can not just take a piece of regular code and say oaky I'm going to run it on 5 cores, that won't work. The
+      programmer has to decide hot to partition this code (I want this data here and this data there etc.).  
+      The program is making these decisions that allow these things to run in parallel.
 
 ### Concurrency in go
 
@@ -124,13 +140,13 @@ Workspace is a directory where your Go stuff will go.
 
 - hierarchy of directories
 - Common organization is good for sharing  
-  You never programming alone, you can work with people all over the place, and they have to be able to work with your code (merge, link, review, edit). So it is nice have a common standardized organization of your files.
+  You never programming alone, you can work with people all over the place, and they have to be able to work with your
+  code (merge, link, review, edit). So it is nice have a common standardized organization of your files.
 - Three subdirectories
     1. src - Contains source code files
     2. pkg - Contains packages (libraries)
-      Packages that you are going to link in that you need
-    3. bin - Contains executables
-      your compiled executables
+       Packages that you are going to link in that you need
+    3. bin - Contains executables your compiled executables
 - Directory hierarchy is recommended, not enforced.
 - Workspace directory defined by **GOPATH** environment variable.
 
@@ -161,21 +177,21 @@ Workspace is a directory where your Go stuff will go.
   i.e. "fmt" - printf statement
 - Searches directories spefified by `GOROOT` and `GOPATH`
   if you import packages from some other place you have to change `GOROOT` and `GOPATH` so that it can find them
-  
+
 ### Go Tool (CLI)
 
 - Tool to manage Go source code
 - Several commands
 - `go build` - compiles the program  
-  arguments can be a list of packages ora a list of `.go` files
-  creates an executable for the main package, same name as the first `.go` file
+  arguments can be a list of packages ora a list of `.go` files creates an executable for the main package, same name as
+  the first `.go` file
 - `go doc` - prints documentation for a package
 - `go fmt` - format source code files
 - `go get` - download packages and install them
 - `go list` - list all the install packages
 - `go run` - compiles go files and runs the executable
 - `go test` - runs tests using files ending in `_test.go`
- 
+
 ## Variables
 
 - names must start with a letter
@@ -188,16 +204,15 @@ Workspace is a directory where your Go stuff will go.
 - can declare many on the same line
   `var x, y int`
 - type defined the values a variable may take and operation that can be performed on it
-- How much space in memory you are going to need to allocate for this variable 
-  - integer
-  - floating point
-  integer division is different from floating point division (depends on hardware) 
-  - Strings
+- How much space in memory you are going to need to allocate for this variable
+    - integer
+    - floating point integer division is different from floating point division (depends on hardware)
+    - Strings
 
 - You can define an alias, an alternative name for a type, some time is useful for improve clarity.  
-e.g. `type Celsius float64` or `type IDnum int`
+  e.g. `type Celsius float64` or `type IDnum int`
 - you can declare variables using the type alias  
-e.g. `var temp Celsius` or `var pid IDnum`
+  e.g. `var temp Celsius` or `var pid IDnum`
 
 ### Variable initialization
 
@@ -218,8 +233,10 @@ Can only do this inside a function.
 - Pointer is an address to data in memory
 
 Two main operators that are associated with Pointers:
+
 1. **&** operator returns the address of a variable/function
-2. (*) operator returns data at an address (dereferencing) - If you put that in front of a Pointer to some address, put that in front of an address it will return you the data at that address. 
+2. (*) operator returns data at an address (dereferencing) - If you put that in front of a Pointer to some address, put
+   that in front of an address it will return you the data at that address.
 
 **e.g.**
 
@@ -231,7 +248,7 @@ var ip *int // ip is pointer to int
 ip = &x // ip noi points to x
 y = *ip // y is now 1
 ```
- 
+
 ### New
 
 - Alternate way to create a variable
@@ -246,24 +263,25 @@ ptr := new(int)
 ## Variable Scope
 
 - The places in code where a variable can be accessed
+
 ```go
 var x = 4
 
 func f() {
-    fmt.Printf("%d", x)
-} 
+fmt.Printf("%d", x)
+}
 func g() {
-    fmt.Printf("%d", x)
+fmt.Printf("%d", x)
 }
 ```
 
 ```go
 func f() {
-    var x = 4
-    fmt.Printf("%d", x)
-} 
+var x = 4
+fmt.Printf("%d", x)
+}
 func g() {
-    fmt.Printf("%d", x)
+fmt.Printf("%d", x)
 }
 ```
 
@@ -277,85 +295,87 @@ Function `g` will have no reference to `x`.
     - Package block - all source in a package
     - File block - all source in a file
     - "if", "for", "switch" - all code inside the statement
-    - Clause in "switch" or "select" - individual clauses each get a block 
+    - Clause in "switch" or "select" - individual clauses each get a block
 
 There implicit blocks that you do not have to put explicit curly brackets for.
 
 ### Lexical Scoping
 
 - Go is a lexical scoped language using blocks
-  `bi >= bj` if `bj` is defined inside `bi` 
+  `bi >= bj` if `bj` is defined inside `bi`
 
 ## Deallocating Memory
 
-Once you declare a variable and your code is running your space needs to be allocated somewhere in memory for that variable, at some point that space has to be deallocated. When you're done using it all right.
+Once you declare a variable and your code is running your space needs to be allocated somewhere in memory for that
+variable, at some point that space has to be deallocated. When you're done using it all right.
 
 - When a variable is no longer needed, it should be deallocated
-  - memory space is made available
+    - memory space is made available
 - Otherwise, we will eventually run out of memory
+
 ```go
 func f() {
-    var x = 4
-    fmt.Printf("%d", x)
+var x = 4
+fmt.Printf("%d", x)
 } 
 ```
-  Now say you call in your program you call this function `f` 100 times right, then it's going to allocate 100 different spaces for this variable X right.
+
+Now say you call in your program you call this function `f` 100 times right, then it's going to allocate 100 different
+spaces for this variable X right.
 
 ### Stack vs Heap
 
 - stack is dedicated to function call
-  - local variables are stored here
-  - deallocated after function completes (Go changes this a little bit)
+    - local variables are stored here
+    - deallocated after function completes (Go changes this a little bit)
 - Heap is persistent
-  - Data on the heap must be deallocated when it is done being used
-  - in most compiled language (i.e. C) this is done manually
-   `x = malloc(32)` and `free(x)`
-  - Error prone, but fast  
+    - Data on the heap must be deallocated when it is done being used
+    - in most compiled language (i.e. C) this is done manually
+      `x = malloc(32)` and `free(x)`
+    - Error prone, but fast
 
 ## Garbage collector
 
-- hard to determine when a variable is no longer use
-  you do not want to deallocate a variable and later need that variable that you deallocated
+- hard to determine when a variable is no longer use you do not want to deallocate a variable and later need that
+  variable that you deallocated
+
 ```go
 func foo() *int {
-    x := 1
-    return &x
+x := 1
+return &x
 }
 
 func main() {
-    var y = *int
-    y = foo()
-    fmt.Printf("%d", *y)
+var y = *int
+y = foo()
+fmt.Printf("%d", *y)
 }
 ```
-  This code is illegal in certain language, but it is legal in Go.  
-  When the function ends that variable x should be deallocated, but in this case it's not the case because is returning a pointer to x.
-  Pointers make it difficult ot tell when deallocation is legal and when it is not.
+
+This code is illegal in certain language, but it is legal in Go.  
+When the function ends that variable x should be deallocated, but in this case it's not the case because is returning a
+pointer to x. Pointers make it difficult ot tell when deallocation is legal and when it is not.
+
 - In interpreted languages this is done by the interpreter
-  - Java Virtual Machine
-  - Python Interpreter
-  Once it determines that a variable is definitely not used, there no more pointers, no more references to that variable then the garbage collector deallocates it.
+    - Java Virtual Machine
+    - Python Interpreter Once it determines that a variable is definitely not used, there no more pointers, no more
+      references to that variable then the garbage collector deallocates it.
 - Easy for the programmer (Deallocating memory is a big headache)
 - Slow (need an interpreter)
 - Go is a compiled language with enables garbage collection
 - Implementation is fast
-- Compiler determines stack vs heap
-  it'll figure out this needs to go heap, this needs to go to the stack and it'll garbage collect appropriately.
-- Garbage collection in the background
-  It slows things down a little bit but it is a great advantage
+- Compiler determines stack vs heap it'll figure out this needs to go heap, this needs to go to the stack and it'll
+  garbage collect appropriately.
+- Garbage collection in the background It slows things down a little bit but it is a great advantage
 
 ## Integers
 
 - Generic int declaration
   `var x int`
-- Different lengths and signs
-  int8, int16, int32, int64,
-  uint8, uint16, uint32, uint64 // can get larger
-  you can control the integer size by specifying what size integer you want 
-- Binary operators
-  Arithmetic: =, -, *, /, %, <<, >>
-  Comparison: ==, !=, >, <, >=, <=
-  Boolean: &&, ||
+- Different lengths and signs int8, int16, int32, int64, uint8, uint16, uint32, uint64 // can get larger you can control
+  the integer size by specifying what size integer you want
+- Binary operators Arithmetic: =, -, *, /, %, <<, >>
+  Comparison: ==, !=, >, <, >=, <= Boolean: &&, ||
 
 ### Type conversions
 
@@ -366,17 +386,21 @@ x = y // this instruction will fail, because x and y have different types
 
 x = int32(y)
 ```
+
 ## Floating point
 
 Real numbers
 
 - float32 - ~6 digits of precision
 - float64 - ~15 digits of precision
+
 ```go
 var x float64 = 123.45 // decimal
 var y float64 = 1.2345e2 // scientific notation
 ```
-- complex numbers rapresented as  two floats: real and imaginary
+
+- complex numbers rapresented as two floats: real and imaginary
+
 ```go
 var x complex128 = complex(2, 3)
 ```
@@ -387,13 +411,11 @@ var x complex128 = complex(2, 3)
 
 Each character has to be coded according to a standardized code.
 
-- American Standard Code for Information Exchange 
+- American Standard Code for Information Exchange
 - Each character is associated with an (7) 8-bit number
-  'A' = 0x41
-  ASCII can represent 256 possible characters
-- Unicode is a 32-bit  character code
-- UTF-8 is a sub set of Unicode. It can be 8-bit but it can go up to 32-bit.
-  The first set of UTF-8 match ASCII
+  'A' = 0x41 ASCII can represent 256 possible characters
+- Unicode is a 32-bit character code
+- UTF-8 is a sub set of Unicode. It can be 8-bit but it can go up to 32-bit. The first set of UTF-8 match ASCII
 - Default in `go` is UTF-8
 - Code points - Unicode characters
 - Rune - code point in `go`
@@ -401,11 +423,11 @@ Each character has to be coded according to a standardized code.
 String are arbitrary sequence of bytes rapresented in UTF-8
 
 - Sequence of arbitrary bytes
-  - Read-only, you cannot modify a string, you can create a new string that is a modified version of existing string
-  - often meant to be printed
-  - String literal - notable by double quotes `x := "Hi there"`
-    Each byte is a rune (UTF-8 code point)
-    
+    - Read-only, you cannot modify a string, you can create a new string that is a modified version of existing string
+    - often meant to be printed
+    - String literal - notable by double quotes `x := "Hi there"`
+      Each byte is a rune (UTF-8 code point)
+
 The `rune` type is an alias for `int32`, and is used to emphasize than an integer represents a code point.
 
 ## Unicode package
@@ -423,56 +445,56 @@ The `rune` type is an alias for `int32`, and is used to emphasize than an intege
 ## Strings package
 
 - Functions to manipulate UTF-8 encoded strings
-  - compare
-  - contains
-  - hasPrefix
-  - index
-  
+    - compare
+    - contains
+    - hasPrefix
+    - index
+
 ### String manipulation
 
 - Strings are immutable, but modified strings are returned
-  - replace
-  - toLower
-  - toUpper
-  - trimSpace
-  
+    - replace
+    - toLower
+    - toUpper
+    - trimSpace
+
 ### Strconv package
 
 - conversion to and from string representations of basic data types
-  - `Atoi(s)` convert string s to int
-  - `Itoa(s)`
-  - `FormatFloat(f, fmt, prec, bitSize)`
+    - `Atoi(s)` convert string s to int
+    - `Itoa(s)`
+    - `FormatFloat(f, fmt, prec, bitSize)`
 
 ## Constants
 
 - Expression whose values is known at compile time
 - Type is inferred from righthand side
+
 ```go
 const x = 1.3
 const (
-	y = 4
-	z = "Hi"
+y = 4
+z = "Hi"
 )
 ```
-
 
 ### iota
 
 - `iota` is a function to generate constants, it generates a set of related but distinct constants.
 - Often rapresents a property which has several distinct possible values
-  - e.g. days of the week
-  - e.g. months of the year
+    - e.g. days of the week
+    - e.g. months of the year
 - Constants must be different but actual value is not important
 - Like enumerated type in other languages
 
 ```go
 type Grades int
 const (
-	A Grades = iota
-	B
-	C
-	D
-	F
+A Grades = iota
+B
+C
+D
+F
 )
 ```
 
@@ -487,10 +509,11 @@ Control Flow describes the order in which statements are executed inside a progr
 
 Statements that alter control flow
 
-### `if` 
+### `if`
+
 ```go
 if x > 5 {
-	fmt.Printf("Yup")
+fmt.Printf("Yup")
 }
 ```
 
@@ -499,8 +522,8 @@ if x > 5 {
 iterates while a condition is true
 
 ```go
-for i:=10; i < 10; i++ {
-	fmt.Printf("Hi")
+for i := 10; i < 10; i++ {
+fmt.Printf("Hi")
 }
 ```
 
@@ -511,13 +534,14 @@ is a multi-way if statements
 ```go
 switch x {
 case 1:
-	fmt.Printf("case1")
+fmt.Printf("case1")
 case 2:
-    fmt.Printf("case2")
+fmt.Printf("case2")
 default:
-    fmt.Printf("nocase")
+fmt.Printf("nocase")
 }
 ```
+
 - The `case` automatically breaks at the end of the case
 
 - Normal switches have a tag, but sometimes switch may not contain tag.
@@ -527,11 +551,11 @@ default:
 ```go
 switch {
 case x > 1:
-	fmt.Printf("case1")
+fmt.Printf("case1")
 case x < -1
-	fmt.Printf("case 2")
+fmt.Printf("case 2")
 default:
-	fmtp.Printf("nocase")
+fmtp.Printf("nocase")
 }
 ```
 
@@ -539,15 +563,15 @@ default:
 
 ```go
 for i := 0; i < 10; i ++ {
-	if i == 5 { break }
-    fmt.Printf("Hi ")
+if i == 5 { break }
+fmt.Printf("Hi ")
 }
 ```
 
 ```go
 for i := 0; i < 10; i ++ {
-    if i == 5 { continue }
-    fmt.Printf("Hi ")
+if i == 5 { continue }
+fmt.Printf("Hi ")
 }
 ```
 
@@ -583,19 +607,20 @@ fmt.Printf(x[1])
 ### Arrau literal
 
 - array pre-defined with values
-`var x [5]int = [5]{1, 2, 3, 4, 5}`
+  `var x [5]int = [5]{1, 2, 3, 4, 5}`
 - lenght of literal must be the same of array
 - `...` for size in array literal infers size from number of initializers
-`x := [...]int{1, 2, 3}`
-  
+  `x := [...]int{1, 2, 3}`
+
 ### Iterating through arrays
 
 - user for loop with the range keyword
+
 ```go
 x := [...]int {1, 2, 3}
 
 for i, v := range x {
-	fmt.Prinf("ind %d, val %d", i, v)
+fmt.Prinf("ind %d, val %d", i, v)
 }
 ```
 
@@ -607,6 +632,7 @@ for i, v := range x {
 - Variable size up to the whole array
 
 Every slice has three properties:
+
 - Pointer: indicates the start of the slice
 - Length: number of element in the slice
 - Capacity: maximum number of elements
@@ -614,9 +640,10 @@ Every slice has three properties:
 ```go
 arr := [...]string{"a", "b", "c", "d", "e", "f", "g"}
 
-s1 := [1:3]  
+s1 := [1:3]
 s2 := [2:5]  
 ```
+
 - We use colon inside the square bracket to define the beginning and the ends of the slide
 - The second slice includes c, d, e but not f. The second number after the colon is just after the end.
 - Slice can overlap and refer the same element inside the underlying array
@@ -640,7 +667,7 @@ fmt.Printf(len(sli1), cap(sli1))
 ```go
 arr := [...]string{"a", "b", "c", "d", "e", "f", "g"}
 
-s1 := [1:3]  
+s1 := [1:3]
 s2 := [2:5]
 
 fmt.Printf(s1[1])
@@ -659,9 +686,9 @@ fmt.Printf(s2[0])
 
 - Create a slice (and array) using make
 - 2-argument version: type and length/capacity
-`sli = make([]int, 10)`
+  `sli = make([]int, 10)`
 - 3-argument version: type, length and capacity separately
-`sli = make([]int, 10, 15)`
+  `sli = make([]int, 10, 15)`
 - The third argument is the size of the array
 
 ### Append
@@ -669,31 +696,28 @@ fmt.Printf(s2[0])
 - Size of a slice can be increased by `append()`
 - Adds elements to the end of the slice
 - Insert into the underlying array, and it increases the size of the underlying array if necessary.
+
 ```go
   var sli = make (int[], 0, 3)
-  sli = append(sli, 100)
+sli = append(sli, 100)
 ```
 
 ## Hash Table
 
 - Contains key/value pairs - e.g. SSN/Email or GPS cord/address
 - Each value is associated with a unique key
-- Hash function is used to compute the slot for a key
-  We can access things in constant time
-  
+- Hash function is used to compute the slot for a key We can access things in constant time
+
 ### Tradeoff of Hash Tables
 
 Advantages
 
-- Faster lookup than list
-  Constant time vs linear-time
-- Arbitrary keys
-  no int like slice or array
+- Faster lookup than list Constant time vs linear-time
+- Arbitrary keys no int like slice or array
 
 Disadvantages
 
-- May have collision
-  Two keys hash to same slot
+- May have collision Two keys hash to same slot
 
 ## Maps
 
@@ -734,25 +758,25 @@ idMap := map[string]int{ "Joe": 3 }
 
 - Use for loop with `range` keyboard
 - Two-value assignment with range
+
 ```go
 for key, value := range idMap {
-	fmt.Printf(key, val)
+fmt.Printf(key, val)
 }
 ```
 
 ## Structs
 
 - Aggregate data type
-- Groups together other objects or arbitrary type
-  Useful for organization purpose, it brings together variables that are releated
-  e.g.  Person struct  
-  - Name, Address, Phone
+- Groups together other objects or arbitrary type Useful for organization purpose, it brings together variables that are
+  releated e.g. Person struct
+    - Name, Address, Phone
 
 ```go
 type Person struct {
-	name string
-	address string
-	phone string
+name string
+address string
+phone string
 }
 var p1 Person
 ```
@@ -782,28 +806,27 @@ x = p1.address
 - RFC Request for comments
 - Definitions of internet protocols and formats
 - Example protocols:
-  - HTML (1866)
-  - URI (3986)
-  - HTTP (2616)
+    - HTML (1866)
+    - URI (3986)
+    - HTTP (2616)
 
 ### Protocol package
 
-- Golang provides packages for important  RFCs
-- Function that encode and decode protocol format
-  e.g. net/http - web communication protocol
+- Golang provides packages for important RFCs
+- Function that encode and decode protocol format e.g. net/http - web communication protocol
   `http.Get(www.uci.edu)`
   e.g. net TCP/IP and socket programming
   `net.Dial("tcp", "uci.edu:80")`
-  
+
 ### JSON
 
 - JavaScript Object Notation
 - RFC 7159
 - Format to represent structured information
 - Attribute-value pairs
-  - struct or map
+    - struct or map
 - Basic value types
-  - Bool, number, string, array, "object"
+    - Bool, number, string, array, "object"
 
 ### JSON properties
 
@@ -818,9 +841,9 @@ x = p1.address
 
 ```go
 type struct Person {
-	name string
-	addr string
-	phone string
+name string
+addr string
+phone string
 }
 
 p1 := Person(name: "Joe", addr: "a st.", phone: "123")
@@ -844,14 +867,14 @@ err := json.Unmarshal(barr, &p2)
 ## Files
 
 - Linear access, not random access
-  - Mechanical delay
+    - Mechanical delay
 - Basic operations
-  1. Open - get handle for access
-  2. Read - read bytes into `[]byte`
-  3. Write - write `[]byte` into file
-  4. Close - release handle
-  5. Seek - move read/write head
-  
+    1. Open - get handle for access
+    2. Read - read bytes into `[]byte`
+    3. Write - write `[]byte` into file
+    4. Close - release handle
+    5. Seek - move read/write head
+
 ### `ioutil` File Read
 
 - "io/util" package has basic functions
@@ -875,11 +898,11 @@ err := ioutil.WriteFile("outfile.txt", dat, 0777)
 ### OS package File Access
 
 - `os.Open()` opens a file
-  - returns a file descriptor (File)
+    - returns a file descriptor (File)
 - `os.Close()` closes a file
 - `os.Read()` reads from a file into a `[]byte`
-  - fills the `[]byte`
-  - control the amount read
+    - fills the `[]byte`
+    - control the amount read
 - `os.Write` writes a `[]byte` into a file
 
 ```go
@@ -903,15 +926,16 @@ nb, err := f.WriteString("Hi")
 
 ## Functions
 
-`main` function is a special function you never call this function, when you run the program the `main` function is invoked and rum immediately.  
+`main` function is a special function you never call this function, when you run the program the `main` function is
+invoked and rum immediately.
 
 ```go
 func PrintHello() {
-	fmt.Println("Hello, World")
+fmt.Println("Hello, World")
 }
 
 func func main() {
-    PrintHello()
+PrintHello()
 }
 ```
 
@@ -919,11 +943,11 @@ e.g. parameters and arguments
 
 ```go
 func foo(x int, y int) {
-	fmt.Println(x*y)
+fmt.Println(x*y)
 }
 
 func main() {
-	foo(2, 3)
+foo(2, 3)
 }
 ```
 
@@ -937,7 +961,7 @@ Return values
 
 ```go
 func foo(x int) int {
-	return x + 1
+return x + 1
 }
 
 y := foo(1)
@@ -947,7 +971,7 @@ Multiple return values
 
 ```go
 func foo2(x int) (int, int) {
-	return x, x + 1
+return x, x + 1
 }
 
 a, b := foo2(3)
@@ -956,24 +980,24 @@ a, b := foo2(3)
 ### Call by value, reference
 
 - Call by value
-  - passed arguments are copied to parameters
-  - Modifing parameters has no effect outside the  function
+    - passed arguments are copied to parameters
+    - Modifing parameters has no effect outside the function
 
 ```go
 func foo(y int) {
-	y = y + 1
+y = y + 1
 }
 
 func main() {
-	x := 2
-	foo(x)
-	fmt.Println(x)
+x := 2
+foo(x)
+fmt.Println(x)
 }
 ```
 
 - Call by reference
-  - Programmer can pass a pointer as an argument
-  - Called function has direct access to caller variable in memory
+    - Programmer can pass a pointer as an argument
+    - Called function has direct access to caller variable in memory
 
 ```go
 func foo(y *int) {
@@ -994,12 +1018,12 @@ fmt.Println(x)
 
 ```go
 func foo(x [3]int) int {
-	return x[0]
+return x[0]
 }
 
 func main() {
-	a := [3]int{1, 2, 3}
-	fmt.Println(foo(a))
+a := [3]int{1, 2, 3}
+fmt.Println(foo(a))
 }
 ```
 
@@ -1007,13 +1031,13 @@ func main() {
 
 ```go
 func foo(x *[3]int) int {
-    (*x)[0] = (*x[0]) + 1
+(*x)[0] = (*x[0]) + 1
 }
 
 func main() {
-    a := [3]int{1, 2, 3}
-    foo(&a)
-    fmt.Println(a)
+a := [3]int{1, 2, 3}
+foo(&a)
+fmt.Println(a)
 }
 ```
 
@@ -1022,17 +1046,16 @@ func main() {
 - Slices contain a pointer to the array
 - Passing a slice copies the pointer
 
-
 ```go
 func foo(sli []int) []int {
-    sli[0] = sli[0] + 1
-    return sli
+sli[0] = sli[0] + 1
+return sli
 }
 
 func main() {
-    a := []int{1, 2, 3}
-    foo(a)
-    fmt.Println(a)
+a := []int{1, 2, 3}
+foo(a)
+fmt.Println(a)
 }
 ```
 
@@ -1046,17 +1069,17 @@ Function can be treated like other types
 - Can be created **dynamically**
 - Can be passed as arguments and returned as values
 - Can be stored in a data structures
-  
+
 ### Variables as functions
 
 ```go
-var funcVar func(int) int
+var funcVar func (int) int
 func incFn(x int) int {
-	return x+1
+return x+1
 }
 func main() {
-	funcVar = incFn
-	fmt.Println(funcVar(1))
+funcVar = incFn
+fmt.Println(funcVar(1))
 }
 ```
 
@@ -1064,15 +1087,15 @@ func main() {
 
 ```go
 func applyIt(afunct func (int) int, val int) int {
-	return afunct(int)
+return afunct(int)
 }
 
 func incFn(x int) int { return x+1 }
 func decFn(x int) int { return x-1 }
 
 func main() {
-	fmt.Println(applyIt(incFn, 2))
-	fmt.Println(applyIt(decFn, 2))
+fmt.Println(applyIt(incFn, 2))
+fmt.Println(applyIt(decFn, 2))
 }
 ```
 
@@ -1082,12 +1105,12 @@ Function without a name
 
 ```go
 func applyIt(afunct func (int) int, val int) int {
-    return afunct(val)
+return afunct(val)
 }
 
 
 func main() {
-    fmt.Println(applyIt(func(x int) int { return x+1 }, 2))
+fmt.Println(applyIt(func (x int) int { return x+1 }, 2))
 }
 ```
 
@@ -1095,19 +1118,19 @@ func main() {
 
 ```go
 func MakeDistOrigin(o_x, o_y float64) func (float64, float64) float64 {
-	fn := func (x, y float64) float64 {
-		return math.Sqrt(math.Pow(x - o_x, 2) + math.Pow(y - o_y, 2))
-    }
+fn := func (x, y float64) float64 {
+return math.Sqrt(math.Pow(x - o_x, 2) + math.Pow(y - o_y, 2))
+}
 
-    return fn
+return fn
 }
 
 func main() {
-	Dist1 := MakeDistOrigin(0,0)
-	Dist2 := MakeDistOrigin(2,2)
-	
-	fmt.Println(Dist1(2,2))
-	fmt.Println(Dist2(2,2))
+Dist1 := MakeDistOrigin(0, 0)
+Dist2 := MakeDistOrigin(2, 2)
+
+fmt.Println(Dist1(2, 2))
+fmt.Println(Dist2(2, 2))
 }
 ```
 
@@ -1121,7 +1144,7 @@ func main() {
 ```go
 var x int
 func foo(y int) {
-	x := 1
+x := 1
 }
 ```
 
@@ -1138,14 +1161,14 @@ func foo(y int) {
 
 ```go
 func getMax(vals ...int) int {
-	maxV := -1
-	for _, v := range vals {
-		if v > maxV {
-			maxV = v
-        } 
-    }
-    
-    return maxV
+maxV := -1
+for _, v := range vals {
+if v > maxV {
+maxV = v
+} 
+}
+
+return maxV
 }
 ```
 
@@ -1153,9 +1176,9 @@ func getMax(vals ...int) int {
 
 ```go
 func main() {
-	fmt.Println(getMax(1, 2, 3, 4, 5))
-	vslice := []{1, 3, 6, 4}
-	fmt.Println(getMax(vslice...))
+fmt.Println(getMax(1, 2, 3, 4, 5))
+vslice := []{1, 3, 6, 4}
+fmt.Println(getMax(vslice...))
 }
 ```
 
@@ -1164,14 +1187,14 @@ func main() {
 
 ### Deferred function calls
 
-- Call can be deferred until the  surrounding function complete
+- Call can be deferred until the surrounding function complete
 - Typically, used for cleanup activities
 
 ```go
 func func main() {
-    defer fmt.Println("bye!")
-    
-    defer fmt.Println("Hello!")
+defer fmt.Println("bye!")
+
+defer fmt.Println("Hello!")
 }
 ```
 
@@ -1181,16 +1204,16 @@ func func main() {
 
 ```go
 func func main() {
-    i := 1
-    defer fmt.Println(i+1)
-    i++
-    defer fmt.Println("Hello")
+i := 1
+defer fmt.Println(i+1)
+i++
+defer fmt.Println("Hello")
 }
 ```
 
 ## Object-Orientation in GO
 
-### Classes  
+### Classes
 
 - Collection of data fields and functions that share a well-defined responsibility
 - Classes are a template
@@ -1210,23 +1233,23 @@ func func main() {
 ### No "Class" keyword
 
 - Most of OO languages have class keyword
-- Data fields and methods  are defined  inside a class block
+- Data fields and methods are defined inside a class block
 
 ### Associating methods with data
 
-- Method has a **receiver type** that it is associate with 
+- Method has a **receiver type** that it is associate with
 - Use dot notation to call the method
 
 ```go
 type MyInt int
 
 func (mi MyInt) Double () int {
-	return int(mi*2)
+return int(mi*2)
 }
 
 func main() {
-    v := MyInt(3)
-    fmt.Println(v.Double())
+v := MyInt(3)
+fmt.Println(v.Double())
 }
 ```
 
@@ -1235,7 +1258,7 @@ func main() {
 ### Implicit method argument
 
 - Object of receiver type is an implicit argument to the function
-  - Call by Value
+    - Call by Value
 
 ### Structs, again
 
@@ -1243,8 +1266,8 @@ func main() {
 
 ```go
 type Point struct {
-	x float64
-	y float64
+x float64
+y float64
 }
 ```
 
@@ -1256,13 +1279,13 @@ type Point struct {
 
 ```go
 func (p Point) DistoToOrigin() {
-	t := math.Pow(p.x, 2) + math.Pow(p.y, 2)
-	return math.Sqrt(t)
+t := math.Pow(p.x, 2) + math.Pow(p.y, 2)
+return math.Sqrt(t)
 }
 
 func main() {
-    p1 := Point(3, 4)
-    fmt.Println(p1.DistToOrigin())
+p1 := Point(3, 4)
+fmt.Println(p1.DistToOrigin())
 }
 ```
 
@@ -1276,6 +1299,7 @@ package data
 import "fmt"
 
 var x int = 1
+
 func PrintX() { fmt.Println(x) }
 ```
 
@@ -1285,7 +1309,7 @@ package main
 import "data"
 
 func main() {
-  data.PrintX()
+	data.PrintX()
 }
 ```
 
@@ -1294,7 +1318,7 @@ func main() {
 ### Controlling access to Structs
 
 - Hide fields of structs by starting field name with lower-case letter
-- Defined public methods which access hidden data 
+- Defined public methods which access hidden data
 
 ```go
 package data
@@ -1314,19 +1338,19 @@ func (p *Point) InitMe(xn, yn float64) {
 
 ```go
 func (p *Point) Scale(v float64) {
-	p.x = p.x * v
-	p.y = p.y * v
+p.x = p.x * v
+p.y = p.y * v
 }
 
 func (p *Point) PrintMe() {
-	fmt.Println(p.x, p.y)
+fmt.Println(p.x, p.y)
 }
 
 func main() {
-     var p data.Point
-     p.InitMe(3, 4)
-     p.Scale(2)
-     p.PrintMe()
+var p data.Point
+p.InitMe(3, 4)
+p.Scale(2)
+p.PrintMe()
 }
 ```
 
@@ -1334,14 +1358,14 @@ func main() {
 
 ### Limitation fo methods
 
-- Receiver is passed  implicitly as an argument to the method
+- Receiver is passed implicitly as an argument to the method
 - Method cannot modify the data inside the receiver
 - Example: `OffsetX()` should increase x coordinate
 
 ```go
 func main() {
-	p1 := Point{3, 4}
-	p1.OffsetX(5)
+p1 := Point{3, 4}
+p1.OffsetX(5)
 }
 ```
 
@@ -1352,8 +1376,8 @@ func main() {
 ```go
 type Image [100][100]int
 func main() {
-    i1 := GrabImage()
-    i1.BlurImage()
+i1 := GrabImage()
+i1.BlurImage()
 }
 ```
 
@@ -1363,7 +1387,7 @@ func main() {
 
 ```go
 func (p *Point) OffsetX(v float64) {
-	p.x = p.x + v
+p.x = p.x + v
 }
 ```
 
@@ -1371,22 +1395,22 @@ func (p *Point) OffsetX(v float64) {
 - Call by reference, pointer is passed to the method
 - No need to dereference, Point is referenced as `p` not `*p`
 - Dereferencing is automatic with `.` operator
-- Do not need to reference when calling the method e.g. `p.ScaleX(3)` 
+- Do not need to reference when calling the method e.g. `p.ScaleX(3)`
 
 ### Using Pointer Receivers
 
 - Good programming practice:
-  1. All methods for a type have pointer receivers, or 
-  2. All methods for a type have non-pointer receivers
+    1. All methods for a type have pointer receivers, or
+    2. All methods for a type have non-pointer receivers
 - Mixing pointer/non-pointer receivers for a type will get confusing
-  - Pointer receiver allows modification
+    - Pointer receiver allows modification
 
 ## Polimorphism
 
 - Ability for an object to have different "forms" depending on the context
 - Example: `Area()` function
-  - Rectangle: area = base * height 
-  - Triangle: area = 0.5 * base * height
+    - Rectangle: area = base * height
+    - Triangle: area = 0.5 * base * height
 - Identical at a high level of abstraction
 - Different al a low level of abstraction
 
@@ -1395,7 +1419,7 @@ func (p *Point) OffsetX(v float64) {
 ## Interfaces
 
 - Set of method signatures
-  - Implementation is NOT defined
+    - Implementation is NOT defined
 - Used to express conceptual similarity between types
 - Example: Shape2D interface
 - All 2D shapes mush have `Area()` and `Perimeter()`
@@ -1403,18 +1427,18 @@ func (p *Point) OffsetX(v float64) {
 ### Satisfying an Interface
 
 - Type satisfies an interface if type defines all methods specified in the interface
-  - Same method signatures
+    - Same method signatures
 - Rectangle and Triangle types satisfy the Shape2D interface
-  - Mush have `Area()` and `Perimeter()` methods
-  - Additional methods are ok
-- Similar to inheritance  with overriding
+    - Mush have `Area()` and `Perimeter()` methods
+    - Additional methods are ok
+- Similar to inheritance with overriding
 
 ### Defining an interface type
 
 ```go
 type Shape2D interface {
-	Area() float64
-	Perimeter() float64
+Area() float64
+Perimeter() float64
 }
 
 type Triangle {...}
@@ -1438,13 +1462,14 @@ No need to state it explicity
 
 ### Interface value
 
-- Can be treated like  other values
-  - assigned to variables
-  - passed, returned
-  - Interface value has 2 components
-    1. Dynamic type: Concrete type which is assigned to
-    2. Dynamic value: Value of the dynamic type
-    - Interface value is actually a pair (dynamic type and dynamic value)
+- Can be treated like other values
+    - assigned to variables
+    - passed, returned
+    - Interface value has 2 components
+        1. Dynamic type: Concrete type which is assigned to
+        2. Dynamic value: Value of the dynamic type
+
+        - Interface value is actually a pair (dynamic type and dynamic value)
 - An interface can have a nil dynamic value
 
 ```go
@@ -1461,11 +1486,11 @@ s1 = d1
 
 ```go
 func (d *Dog) Speak() {
-	if d == nil {
-		fmt.Println("")
-    } else {
-    	fmt.Println(d.name)
-    }
+if d == nil {
+fmt.Println("")
+} else {
+fmt.Println(d.name)
+}
 }
 
 var s1 Speaker
@@ -1477,9 +1502,8 @@ s1.Speak()
 ### Nil interface value
 
 - interface with nil dynamic type
-- very different  from an interface with a nil dynamic value
+- very different from an interface with a nil dynamic value
 - e.g. `var s1 Speaker` cannot call a method, runtime error
-
 
 ## Empty interface
 
@@ -1489,7 +1513,7 @@ s1.Speak()
 
 ```go
 func PrintMe(val interface{}) {
-	fmt.Println(val)
+fmt.Println(val)
 }
 ```
 
@@ -1505,8 +1529,8 @@ func PrintMe(val interface{}) {
 - Exmaple: Graphic program
 - `DrawShape()` will draw any shape
 - Underlying API has different drawing functions for each shape
-  - `DrawRect(r Rectangle) {...}`
-  - `DrawTriangle(t Triangle) {...}`
+    - `DrawRect(r Rectangle) {...}`
+    - `DrawTriangle(t Triangle) {...}`
 - Concrete type of shape `s` must be determined
 
 ### Type assertions for disambiguation
@@ -1515,22 +1539,22 @@ func PrintMe(val interface{}) {
 
 ```go
 func DrawShape(s Shape2D) bool {
-	rect, ok := s.(Rectangle)
-	if ok {
-		DrawRect(rect)
-    }
-    tri, ok := s.(Triangle)
-    if ok {
-    	DrawTriangle(tri)
-    }
+rect, ok := s.(Rectangle)
+if ok {
+DrawRect(rect)
+}
+tri, ok := s.(Triangle)
+if ok {
+DrawTriangle(tri)
+}
 }
 ```
 
 - Type assertion extracts Rectangle from Shape2D (concrete type in parentheses)
 - If interface contains concrete type
-  - rect == concrete, ok == true
+    - rect == concrete, ok == true
 - If interface does not contain concrete type
-  - rect == zero, ok == false
+    - rect == zero, ok == false
 
 ### Type Switch
 
@@ -1538,12 +1562,12 @@ func DrawShape(s Shape2D) bool {
 
 ```go
 func DrawShape(s Shape2D) {
-    switch sh := s.(type) {
-    case Rectangle: 
-    	DrawRect(sh)
-    case Triangle:
-    	DrawTriangle(sh)
-    }
+switch sh := s.(type) {
+case Rectangle:
+DrawRect(sh)
+case Triangle:
+DrawTriangle(sh)
+}
 }
 ```
 
@@ -1555,10 +1579,156 @@ func DrawShape(s Shape2D) {
 
 ```go
 type error interface {
-	Error() string
+Error() string
 }
 ```
 
 - Correct operation: error == nil
 - Incorrect operation: `Error()` prints the error message
 
+## Concurrency
+
+Big property of Go language is that concurrency is built into the language.  
+Compared to other languages like C and things or anything, Python, whatever, these languages you can do concurrent
+programming in these languages, but it's not built into the language, which means, usually what you do is you import
+some library, some external library.
+
+### Parallel Execution
+
+Concurrency and parallelism are two closely ideas.
+
+- Two programs execute in parallel it they **execute at exactly same time**
+- At time t, an instruction is being performed for both P1 and P2
+  Generally, one core runs one instruction at a time.
+  So, if you want to have actual parallel execution, two things running at the same time, you need two processors or at least two processor cores.
+- Need replicated hardware
+
+### Why use Parallel execution
+
+- Tasks may complete more quickly (better throughput overall)
+- Example: Two piles of dishes to wash.
+  Two dishwasher can complete twice as fast as one
+- Some tasks must be performed sequentially
+- Example: Wash dish, dry dish
+- Some tasks are parallelizable and some are not
+
+### Why use concurrency? Speedup without Parallelism
+
+- Can we achieve speedup without Parallelism?
+- Designer faster processors
+  - get speedup without changing software
+- Design Processor with more memory
+  - Reduces the Von Neumann bottleneck
+  - cache access time = 1 clock cycle
+  - Main memory access time =~100 clock cycles
+  - Increasing on-chip cache improves performance
+
+### Moore's Law
+
+- Predicted that transistor density would double every 2 years
+- Smaller transistors switch faster
+- Not a physical law, just an observation
+- Exponential increase in density would lead to exponential increase in speed
+
+### Power / Temperature Problem
+
+- Transistors consume power when they switch
+- Increasing transistor density leads to increased power consumption
+  - Smaller transistors use less power, but density scaling is much faster
+- High power leads to high temperature
+- Air cooling (fans) can only remove so much heat
+
+### Dynamic Power
+
+- P = α * CFV^2
+- α is percent of time switching
+- C is capacitance (related to transistor size)
+- F is the clock frequency
+- V is voltage swing (from lo to high)
+
+- Voltage is important
+- 0 to 5V uses much more power than 0 to 1.3V
+
+### Dennard Scaling
+
+- Voltage should scale with transistor size
+- Keeps power consumption, and temperature, low
+- Problem: Voltage can't go too low
+  - Must stay above threshold voltage (transistors have what's called a threshold voltage. Below a certain voltage, they cannot switch on)
+  - Noise problems occur
+- Problem: does not consider leakage power
+- Dennard scaling must stop
+
+### Multi-Core systems
+
+- P = α * CFV^2
+- Cannot increase frequency
+- Can still add processor cores, without increasing frequency
+  - Trend is apparent today
+- Parallel execution is needed to exploit multi-core system
+- Code made to execute on multiple cores
+- Different programs on different core
+
+### Concurrent Execution
+
+- Concurrent execution is not necessarily the same as parallel execution
+- Concurrent: start and end times overlap
+- Parallel: executed at exactly the same time
+
+![Concurrent vs Parallel](./img/concurrent-vs-parallel.png)
+
+### Concurrent vs Parallel
+
+- Parallel tasks must be executed on different hardware
+- Concurrent tasks may be executed on the same hardware
+  - Only one task actually executed at a time
+- Mapping from tasks to hardware is not directly controlled by programmer
+  - At least not in go
+
+### Concurrent Programming
+
+- Programmer determines which tasks can be executed in parallel
+- Mapping tasks to hardware
+  - Operating system
+  - Go runtime scheduler
+
+So you're doing concurrent programming but you've only got one core, so you can't actually get parallelism.
+
+### Hiding Latency
+
+- Concurrency improves performance, even without parallelism
+- Tasks must periodically wait for something
+  - i.e. wait for memory, network, screen etc..
+  - X = Y + Z read Y, Z from memory
+  - may wait 100+ clock cycles
+- Other concurrent tasks con operate while one task is waiting
+
+**Parallel execution**
+```
+Task 1              Task 2
+  |                   |
+  |                   |
+  |                   |
+  v                   v
+Core 1              Core 2
+```
+
+
+**Concurrent Execution**
+```
+Task 1              Task 2
+  \                   /
+    \               /
+      \           /
+        v       v
+          Core 1
+```
+
+### Hardware Mapping in go
+
+- Programmer does not determine the hardware mapping
+- Programmer makes parallelism possible
+- Hardware mapping depends on many factors
+  - Where is the data?
+  - What are the communication costs?
+  
