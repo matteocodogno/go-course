@@ -1731,4 +1731,83 @@ Task 1              Task 2
 - Hardware mapping depends on many factors
   - Where is the data?
   - What are the communication costs?
-  
+
+### Processes
+
+- An instance of a running program
+- things unique to a process
+  1. Memory
+    - virtual address space
+    - Code, stack, heap, shared libraries
+  2. Registers
+    - Program counter, data regs, stack pointer
+
+### Operating System
+
+- Allows many processes to execute concurrently
+- Process are switched quickly
+  - 20ms
+- User has the impression of parallelism
+- Operating system must give processes fair access to resources
+
+
+### Scheduling Processes
+
+- Operating system schedules processes for execution
+- Gives the illusion of parallel execution
+- There are many scheduling algorithm, the simplest is Round robin
+- OS gives fair access to CPU, memory, etc..
+
+### Context Switch
+
+- Control flow changes from one process to another
+  ![context switch](./img/context-switch.png)
+- Process "context" must we swapped
+
+### Threads vs. Processes
+
+- Context switch can be long, because it requires taking data, writing it to memory and then reading data from memory back into registers. So there is a lot of memory access and memory access can be slow.
+- Thread share some context
+- Many threads can exist in one process
+- OS schedules threads rather than processes
+
+### Goroutines
+
+- Like a thread in Go
+- Many Goroutines execute within a single OS thread
+
+![goroutine](./img/goroutine.png)
+
+### Go Runtime Scheduler
+
+- Schedules goroutines inside an OS thread
+- Like a little OS inside a single OS thread.
+  The OS schedules which thread runs at a time, then once the main thread is running, your Go program is runnining within main thread, the Runtime Scheduler can choose different Goroutine to execute at different times underneath that main thread.
+- Logical processor (used by Runtime Scheduler) is mapped to a thread
+  All these goroutines are running in one thread, no opportunity for parallelism, it's all concurrent.
+  But, as programmer we can choose how many Logical processor we want, and we would do this according to how many cores we had.
+
+### Interleavings
+
+- Order of execution wthin a task is known
+- Order of execution between concurrent tasks is unknown
+  Means that two sets of instruction from two different task can be interleaved in different ways.
+- Interleaving of instructions between tasks is unknown
+  - Many interleaving are possible
+  - Must consider all possibilities
+  - ordering is non-deterministic
+
+### Race conditions
+
+- Outcome depends on non-deterministic ordering
+
+![race condition](./img/race-condition.png)
+
+- Races occurs due to communication
+
+### Communication between tasks
+
+- Threads are largely independent but not completely independent
+  It is very common there is some level of sharing between threads, and the sharing of information is communication.
+  - Web Server, one thread per client
+  - Image processing, 1 thread per pixel block
