@@ -1591,13 +1591,13 @@ Error() string
 Big property of Go language is that concurrency is built into the language.  
 Compared to other languages like C and things or anything, Python, whatever, these languages you can do concurrent
 programming in these languages, but it's not built into the language, which means, usually what you do is you import
-some library, some external library.
+some library.
 
 ### Parallel Execution
 
 Concurrency and parallelism are two closely ideas.
 
-- Two programs execute in parallel it they **execute at exactly same time**
+- Two programs execute in parallel if they **execute at exactly same time**
 - At time t, an instruction is being performed for both P1 and P2
   Generally, one core runs one instruction at a time.
   So, if you want to have actual parallel execution, two things running at the same time, you need two processors or at least two processor cores.
@@ -1630,7 +1630,7 @@ Concurrency and parallelism are two closely ideas.
 - Not a physical law, just an observation
 - Exponential increase in density would lead to exponential increase in speed
 
-### Power / Temperature Problem
+#### Power / Temperature Problem
 
 - Transistors consume power when they switch
 - Increasing transistor density leads to increased power consumption
@@ -1638,9 +1638,9 @@ Concurrency and parallelism are two closely ideas.
 - High power leads to high temperature
 - Air cooling (fans) can only remove so much heat
 
-### Dynamic Power
+#### Dynamic Power
 
-- P = α * CFV^2
+- `P = α * CFV^2`
 - α is percent of time switching
 - C is capacitance (related to transistor size)
 - F is the clock frequency
@@ -1649,7 +1649,7 @@ Concurrency and parallelism are two closely ideas.
 - Voltage is important
 - 0 to 5V uses much more power than 0 to 1.3V
 
-### Dennard Scaling
+#### Dennard Scaling
 
 - Voltage should scale with transistor size
 - Keeps power consumption, and temperature, low
@@ -1661,7 +1661,7 @@ Concurrency and parallelism are two closely ideas.
 
 ### Multi-Core systems
 
-- P = α * CFV^2
+- `P = α * CFV^2`
 - Cannot increase frequency
 - Can still add processor cores, without increasing frequency
   - Trend is apparent today
@@ -1789,7 +1789,7 @@ Task 1              Task 2
 
 ### Interleavings
 
-- Order of execution wthin a task is known
+- Order of execution within a task is known
 - Order of execution between concurrent tasks is unknown
   Means that two sets of instruction from two different task can be interleaved in different ways.
 - Interleaving of instructions between tasks is unknown
@@ -1811,3 +1811,164 @@ Task 1              Task 2
   It is very common there is some level of sharing between threads, and the sharing of information is communication.
   - Web Server, one thread per client
   - Image processing, 1 thread per pixel block
+
+### Creating Go Routine
+
+- One goroutine is created automatically to executre the `main()`
+- Other goroutines are created using the `go` keyword
+
+```go
+a = 1
+go foo()
+a = 2
+```
+
+- New goroutine created for foo()
+- Main goroutine does not block
+
+### Exiting a Goroutine
+
+- A goroutine exits when its code is complete
+- When the main goroutine is complete, all other goroutines exit
+- A goroutine may not complete its execution because main completes early
+
+### Early Exit
+
+```go
+func func main() {
+    go fmt.Printf("New routine")
+    fmt.Printf("Main routine")
+}
+```
+
+- Only "Main routine" is printed
+- Main finished before the new goroutine started
+
+### Delayed Exit
+
+```go
+func func main() {
+    go fmt.Printf("New routine")
+    time.Sleep(100*time.Millisecond)
+    fmt.Printf("Main routine")
+}
+```
+
+- add a delay in the main routine to give the new routine a chance to complete
+- "New RoutineMain Routine" is now printed
+
+### Timing with Goroutines
+
+- Adding a delay to wait for a goroutine is bad!
+- Timing assumptions may be wrong
+  - Assumption: delay 100ms will ensure that goroutine has time to execute.
+  - Maybe the OS schedules another thread
+- Maybe the Gor Runtime schedules another goroutine
+- Timing is nondeterministic
+- Need formal synchronization constructs
+
+### Synchronization
+
+- Using **global event** whose execution is viewed by all threads, simultaneously
+- In general synchronization is bad becaus it reduces your performance, but it is necessary.
+
+### Sync WaitGroups
+
+- Sync package contains functions to synchronize between goroutines
+- `sync.WaitGroup` forces a goroutine to wait for other goroutines
+- Contains an internal counter
+  - increment counter for each goroutine to wait for
+  - Decrement counter when each goroutine completes
+  - Waiting goroutine cannot continue until counter is 0
+
+### Using WaitGroup
+
+```go
+func foo(wg *sync.Waitgroup) {
+	fmt.Print("New routine")
+	wg.Done()
+}
+func main() {
+    var wgsync.WaitGroup
+    wg.Add(1)
+    go foo(&wg)
+    wg.Wait()
+    fmt.Printf("Main routine")
+}
+```
+
+- `Add()` increments the counter
+- `Done()` decrements the counter
+- `Wait()` blocks until the counter == 0
+
+### Goroutine Communication
+
+- Goroutines usually work together to perform a bigger task
+- Often need to send data to collaborate
+- Example: find the product of 4 integers
+  - make 2 goroutines, each multiples a pair
+  - Main goroutine multiplies the 2 results
+- Need to send ints from main routine to the two sub-routines
+- Need to send results from sub-routines back to main routine
+
+### Channels
+
+- Transfer data between goroutine
+- Channels are typed
+- Use `make()` to create a channel `c := make(chan int)`
+- Send and receive data using the `<-` operator
+- Send data on a channel `c <- 3`
+- Receive data from a channel `x := <- c`
+
+```go
+func prod(v1 int, v2 int, c chan int) {
+	c <- v1*v2
+}
+
+func func main() {
+    c := make(chan int)
+    go prod(1,2,c)
+    go prod(3,4,c)
+    a := <- c
+    b := <- c
+    fmt.Println(a*b)
+}
+```
+
+### Unbuffered Channel
+
+- Unbuffered channels cannot hold data in transit
+  - Default is unbuffered
+- Sending blocks until data is received
+- Receiving blocks until data is sent
+
+e.g. 
+```
+task1                   task2
+c <- 3
+      One hour later ...
+                      x := <- c
+```
+
+Task one will sit there for an hour, until Task two reaches that read instruction
+
+### Blocking and Synchronization
+
+- Channel communication is synchronous
+- Blocking is the same as waiting for communication
+- Receiving and ignoring the result is same as a `Wait()`
+
+### Channel capacity
+
+- Channel can contain a limited number of objects
+  - default size 0(unbuffered)
+- capacity is the number of objects it can hold in transit
+- Optional argument to `make()` defines channel capacity `c := makle(chan int, 3)`
+- Sending only blocks id buffer is full
+- Receiving only block if buffer is empty
+
+### Use of Buffering
+
+- Sender and receiver do not need to operate at exactly the same speed
+- Speed mismatch is acceptable
+- Average speeds must still match
