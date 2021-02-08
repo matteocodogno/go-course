@@ -66,6 +66,7 @@ func main() {
 		chunk := <- c
 		sorted = append(sorted, chunk...)
 	}
+	sort.Ints(sorted)
 	fmt.Println(sorted)
 }
 
