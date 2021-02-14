@@ -1963,7 +1963,7 @@ Task one will sit there for an hour, until Task two reaches that read instructio
 - Channel can contain a limited number of objects
   - default size 0(unbuffered)
 - capacity is the number of objects it can hold in transit
-- Optional argument to `make()` defines channel capacity `c := makle(chan int, 3)`
+- Optional argument to `make()` defines channel capacity `c := make(chan int, 3)`
 - Sending only blocks id buffer is full
 - Receiving only block if buffer is empty
 
@@ -1972,3 +1972,327 @@ Task one will sit there for an hour, until Task two reaches that read instructio
 - Sender and receiver do not need to operate at exactly the same speed
 - Speed mismatch is acceptable
 - Average speeds must still match
+
+### Iterating through a Channel
+
+- Common to iteratively read from a channel
+
+```go
+for i := range c {
+	fmt.Println(i)
+}
+```
+
+- Continues to read from channel c
+- One iteration each time a new value is received
+- `i` is assigned to the read value
+- iterates when sender calls `close(c)`
+
+### Receiving from multiple Goroutines
+
+- Multiple channels may be used to receive from multiple sources
+- Data from both sources may be needed
+- Read sequatianlly
+```go
+a := <- c1
+b := <- c2
+
+fmt.Println(a*b)
+```
+
+### Select Statement
+
+- May have a choice of which data to use
+  - i.e. First-come first-served
+- Use the `select` statement to wait on the irst data from a set of channels
+```go
+select {
+    case a = <- c1:
+    	fmt.Println(a)
+    case b = <- c2:
+    	fmt.Println(b)
+}
+```
+
+### Select Send or Receive
+
+- May select either send or receive operations
+```go
+select {
+    case a = <- inchan:
+	    fmt.Println("Received a")
+	case outchan <- b:
+		fmt.Println("Sent b")
+}
+```
+
+### Select with an Abort Channel
+
+- Use select with a separate abort channel
+```go
+for {
+	select {
+	    case a <- c
+	        fmt.Println(a)
+        case <- abort:
+        	return
+    }
+}
+```
+
+### Default Select 
+
+- May want a default operation to avoid bloking
+
+```go
+select {
+    case a = <- c1:
+    	fmt.Println(a)
+    case b = <- c2:
+        fmt.Println(b)
+    default:
+    	fmt.Println("nop")
+}
+```
+
+
+- When I have a default, you don't block, you just go and execute the default if none of the previous cases are ready.
+
+### Goroutines sharing variables
+
+- Sharing variables concurrently can cause problems
+- Two goroutines writing to a shared variable can interfere with each other
+
+**Concurrency-Safe**
+- Function can be invoked concurrently without interfering with outher goroutines
+
+e.g.
+
+```go
+var i int = 0
+
+var wg sync.WaitGroup
+
+func inc() {
+	i++
+	wg.Done()
+}
+
+func main() {
+    wg.Add(2)
+    go inc()
+    go inc()
+    wg.Wait()
+    fmt.Println(i)
+}
+```
+- 2 goroutine write to `i`
+- `i` should equal 2
+
+### Granularity of Concurrency
+
+- Concurrency is at the machine code level
+- `i = i + 1` might be three machine instructions
+  read i
+  increment
+  write i
+- Interleaving machine instructions causes unexpected problems
+
+### Correct sharing
+
+- Don't let 2 goroutines write to a shared variable at the same time
+- Need to restrict possible interleavings
+- Access to share variables cannot be interleaved
+**Mutual Exclusion**
+- Code segments in different goroutines which cannot execute concurrently
+
+### Sync.Mutex
+
+- A Mutex ensures mutual exclusion
+- Uses a binary semaphore
+- Flag up - shared variable is in use
+- Flag down - shared variable is available
+
+### Sync.Mutex Methods
+
+- `Lock()` method puts the flag up
+  - shared variable in use
+- If lock is already taken by a goroutine, `Lock()` blocks until the flag is put down
+- `Unlock()` method puts the flag down 
+  - Done using the shared variable
+
+```go
+var i int = 0
+var mut sync.Mutex
+func inc() {
+	mut.Lock()
+	i = i+1
+	mut.Unlock()
+}
+```
+
+### Synchronous Initialization
+
+**Initialization**
+
+- mus happen once
+- must happen before everything else
+
+- How do you perform initialization with multiple goroutines?
+- Could perform initialization before starting the goroutines
+
+### Sync.Once
+
+- Has one method, `once.Do(f)`
+- Function `f` ti is called in multiple goroutines
+- All calls to `once.Do()` block until the first returns
+  - Ensures that initialization executes first
+
+e.g.
+  - Make two goroutines, initalization only once
+  - Each goroutine executes `dostuff()`
+
+```go
+var wg sync.WaitGroup
+
+func main() {
+    wg.Add(2)
+    go dostuff()
+    go dostuff()
+    wg.Wait()
+}
+```
+
+### using Sync.Once
+
+- `setup()` should execute only once
+- "hello" should not print until `setup()` returns
+
+```go
+var on sync.Once
+func setup() {
+	fmt.Println("Init")
+}
+func dostuff() {
+	on.Do(setup)
+	fmt.Println("Hello")
+	wg.Done()
+}
+```
+
+Execution result: Init/Hello/Hello
+
+- Init appears only once
+- Init appears before hello is printed
+
+### Synchronization Dependencies
+
+- Synchronization causes the execution of different goroutines to depend on each other
+
+```
+        G1                  G2
+    ch <- 1             x := <- ch
+  mut.Unlock()          mut.Lock()
+```
+
+- G2 cannot continue until G1 does something
+
+### Deadlock
+
+- Circular dependencies cause all involved goroutines to block
+  - G1 waits for G2
+  - G2 waits fot G1
+- Can be caused byu waiting on channels
+
+e.g.
+
+```go
+func dostuff(c1 chan int, c2 chan int) {
+	<- c1
+	c2 <- 1
+	wg.Done()
+}
+
+func main() {
+    ch1 := make(chan int)
+    ch2 := make(chan int)
+    wg.Add(2)
+    go dostuff(ch1, ch2)
+    go dostuff(ch2, ch1)
+    wg.Wait()
+}
+```
+
+- `dostuff()` argument order is swapped
+- Each goroutine blocked on channel read
+
+### Deadlock detection
+
+- Golang runtime automatically detects when all goroutines are deadlocked
+- cannot detect when a subset of goroutines are deadlocked
+
+### Dining Philosophers Problem
+
+- Classic problem involving concurrency and synchronization
+**Problem**
+- 5 Philosophers sitting at a round table
+- 1 chopstick is placed between each adjacent pair
+- Want to eat rice from their plate, but needs two chopsticks
+- Only one philosopher can hold a chopstick at a time
+- Not enough chopsticks for everyone to eat at once
+
+![Dining Philosophers problem](./img/dining_philosophers.png)
+
+- Each chopstick is a mutex
+- Each philosopher is associated with a goroutine and two chopsitcks
+
+```go
+type ChopS struct { sync.Mutex }
+
+type Philo struct {
+	leftCS, rightCS *ChopS
+}
+
+func (p Philo) eat() {
+	for {
+		p.leftCS.Lock()
+		p.rightCS.Lock()
+		
+		fmt.Println("eating")
+		
+		p.rightCS.Unlock()
+		p.leftCS.Unlock()
+    }
+}
+
+func main() {
+    CSticks := make([]*Chops, 5)
+    for i := 0; i < 5; i ++ {
+    	CSticks[i] = new(ChopS)
+    }
+    philos := make([]*Philo, 5)
+    for i := 0; i < 5; i ++ {
+    	philos[i] = &Philo{CSticks[i], CSticks[(i+1)%5]}
+    }
+    
+    for i := 0; i < 5; i ++ {
+    	go philos[i].eat()
+    }
+}
+```
+
+### Deadlock problem
+
+- All Philosophers might lock their left chopstick concurrently
+- All chopsticks would be locked
+- No one can lock their right chopstick
+
+### Deadlock solution (Dykstra's way)
+
+- Each philosopher picks up lowes numbered chopstick first
+
+`philos[i] = &Philo{CSticks[i], CSticks[(i+1)%5]}`
+
+- Philosopher 4 picks up chopsitck 0 before chopstick 4
+- Philosopher 4 blocks allowing philosopher 3 eat
+- No deadlock, but philosopher 4 may starve (starvation problem)
