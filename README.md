@@ -268,20 +268,21 @@ ptr := new(int)
 var x = 4
 
 func f() {
-fmt.Printf("%d", x)
+    fmt.Printf("%d", x)
 }
 func g() {
-fmt.Printf("%d", x)
+    fmt.Printf("%d", x)
 }
 ```
 
 ```go
 func f() {
-var x = 4
-fmt.Printf("%d", x)
+    var x = 4
+    fmt.Printf("%d", x)
 }
+
 func g() {
-fmt.Printf("%d", x)
+    fmt.Printf("%d", x)
 }
 ```
 
@@ -315,8 +316,8 @@ variable, at some point that space has to be deallocated. When you're done using
 
 ```go
 func f() {
-var x = 4
-fmt.Printf("%d", x)
+    var x = 4
+    fmt.Printf("%d", x)
 } 
 ```
 
@@ -341,14 +342,14 @@ spaces for this variable X right.
 
 ```go
 func foo() *int {
-x := 1
-return &x
+    x := 1
+    return &x
 }
 
 func main() {
-var y = *int
-y = foo()
-fmt.Printf("%d", *y)
+    var y = *int
+    y = foo()
+    fmt.Printf("%d", *y)
 }
 ```
 
@@ -473,8 +474,8 @@ The `rune` type is an alias for `int32`, and is used to emphasize than an intege
 ```go
 const x = 1.3
 const (
-y = 4
-z = "Hi"
+    y = 4
+    z = "Hi"
 )
 ```
 
@@ -490,11 +491,11 @@ z = "Hi"
 ```go
 type Grades int
 const (
-A Grades = iota
-B
-C
-D
-F
+    A Grades = iota
+    B
+    C
+    D
+    F
 )
 ```
 
@@ -513,7 +514,7 @@ Statements that alter control flow
 
 ```go
 if x > 5 {
-fmt.Printf("Yup")
+    fmt.Printf("Yup")
 }
 ```
 
@@ -523,7 +524,7 @@ iterates while a condition is true
 
 ```go
 for i := 10; i < 10; i++ {
-fmt.Printf("Hi")
+    fmt.Printf("Hi")
 }
 ```
 
@@ -563,15 +564,15 @@ fmtp.Printf("nocase")
 
 ```go
 for i := 0; i < 10; i ++ {
-if i == 5 { break }
-fmt.Printf("Hi ")
+    if i == 5 { break }
+    fmt.Printf("Hi ")
 }
 ```
 
 ```go
 for i := 0; i < 10; i ++ {
-if i == 5 { continue }
-fmt.Printf("Hi ")
+    if i == 5 { continue }
+    fmt.Printf("Hi ")
 }
 ```
 
@@ -604,7 +605,7 @@ x[0] = 2
 fmt.Printf(x[1])
 ```
 
-### Arrau literal
+### Array literal
 
 - array pre-defined with values
   `var x [5]int = [5]{1, 2, 3, 4, 5}`
@@ -620,7 +621,7 @@ fmt.Printf(x[1])
 x := [...]int {1, 2, 3}
 
 for i, v := range x {
-fmt.Prinf("ind %d, val %d", i, v)
+    fmt.Prinf("ind %d, val %d", i, v)
 }
 ```
 
@@ -774,9 +775,9 @@ fmt.Printf(key, val)
 
 ```go
 type Person struct {
-name string
-address string
-phone string
+    name string
+    address string
+    phone string
 }
 var p1 Person
 ```
@@ -841,9 +842,9 @@ x = p1.address
 
 ```go
 type struct Person {
-name string
-addr string
-phone string
+    name string
+    addr string
+    phone string
 }
 
 p1 := Person(name: "Joe", addr: "a st.", phone: "123")
@@ -931,11 +932,11 @@ invoked and rum immediately.
 
 ```go
 func PrintHello() {
-fmt.Println("Hello, World")
+    fmt.Println("Hello, World")
 }
 
 func func main() {
-PrintHello()
+    PrintHello()
 }
 ```
 
@@ -943,11 +944,11 @@ e.g. parameters and arguments
 
 ```go
 func foo(x int, y int) {
-fmt.Println(x*y)
+    fmt.Println(x*y)
 }
 
 func main() {
-foo(2, 3)
+    foo(2, 3)
 }
 ```
 
@@ -961,7 +962,7 @@ Return values
 
 ```go
 func foo(x int) int {
-return x + 1
+    return x + 1
 }
 
 y := foo(1)
@@ -971,7 +972,7 @@ Multiple return values
 
 ```go
 func foo2(x int) (int, int) {
-return x, x + 1
+    return x, x + 1
 }
 
 a, b := foo2(3)
@@ -985,13 +986,13 @@ a, b := foo2(3)
 
 ```go
 func foo(y int) {
-y = y + 1
+    y = y + 1
 }
 
 func main() {
-x := 2
-foo(x)
-fmt.Println(x)
+    x := 2
+    foo(x)
+    fmt.Println(x)
 }
 ```
 
@@ -1001,13 +1002,13 @@ fmt.Println(x)
 
 ```go
 func foo(y *int) {
-*y = *y + 1
+    *y = *y + 1
 }
 
 func main() {
-x := 2
-foo(&x)
-fmt.Println(x)
+    x := 2
+    foo(&x)
+    fmt.Println(x)
 }
 ```
 
@@ -1018,12 +1019,12 @@ fmt.Println(x)
 
 ```go
 func foo(x [3]int) int {
-return x[0]
+    return x[0]
 }
 
 func main() {
-a := [3]int{1, 2, 3}
-fmt.Println(foo(a))
+    a := [3]int{1, 2, 3}
+    fmt.Println(foo(a))
 }
 ```
 
@@ -1031,13 +1032,13 @@ fmt.Println(foo(a))
 
 ```go
 func foo(x *[3]int) int {
-(*x)[0] = (*x[0]) + 1
+    (*x)[0] = (*x[0]) + 1
 }
 
 func main() {
-a := [3]int{1, 2, 3}
-foo(&a)
-fmt.Println(a)
+    a := [3]int{1, 2, 3}
+    foo(&a)
+    fmt.Println(a)
 }
 ```
 
@@ -1048,14 +1049,14 @@ fmt.Println(a)
 
 ```go
 func foo(sli []int) []int {
-sli[0] = sli[0] + 1
-return sli
+    sli[0] = sli[0] + 1
+    return sli
 }
 
 func main() {
-a := []int{1, 2, 3}
-foo(a)
-fmt.Println(a)
+    a := []int{1, 2, 3}
+    foo(a)
+    fmt.Println(a)
 }
 ```
 
@@ -1074,12 +1075,14 @@ Function can be treated like other types
 
 ```go
 var funcVar func (int) int
+
 func incFn(x int) int {
-return x+1
+    return x+1
 }
+
 func main() {
-funcVar = incFn
-fmt.Println(funcVar(1))
+    funcVar = incFn
+    fmt.Println(funcVar(1))
 }
 ```
 
@@ -1087,15 +1090,15 @@ fmt.Println(funcVar(1))
 
 ```go
 func applyIt(afunct func (int) int, val int) int {
-return afunct(int)
+    return afunct(int)
 }
 
 func incFn(x int) int { return x+1 }
 func decFn(x int) int { return x-1 }
 
 func main() {
-fmt.Println(applyIt(incFn, 2))
-fmt.Println(applyIt(decFn, 2))
+    fmt.Println(applyIt(incFn, 2))
+    fmt.Println(applyIt(decFn, 2))
 }
 ```
 
@@ -1105,12 +1108,12 @@ Function without a name
 
 ```go
 func applyIt(afunct func (int) int, val int) int {
-return afunct(val)
+    return afunct(val)
 }
 
 
 func main() {
-fmt.Println(applyIt(func (x int) int { return x+1 }, 2))
+    fmt.Println(applyIt(func (x int) int { return x+1 }, 2))
 }
 ```
 
@@ -1118,19 +1121,19 @@ fmt.Println(applyIt(func (x int) int { return x+1 }, 2))
 
 ```go
 func MakeDistOrigin(o_x, o_y float64) func (float64, float64) float64 {
-fn := func (x, y float64) float64 {
-return math.Sqrt(math.Pow(x - o_x, 2) + math.Pow(y - o_y, 2))
-}
-
-return fn
+    fn := func (x, y float64) float64 {
+        return math.Sqrt(math.Pow(x - o_x, 2) + math.Pow(y - o_y, 2))
+    }
+    
+    return fn
 }
 
 func main() {
-Dist1 := MakeDistOrigin(0, 0)
-Dist2 := MakeDistOrigin(2, 2)
-
-fmt.Println(Dist1(2, 2))
-fmt.Println(Dist2(2, 2))
+    Dist1 := MakeDistOrigin(0, 0)
+    Dist2 := MakeDistOrigin(2, 2)
+    
+    fmt.Println(Dist1(2, 2))
+    fmt.Println(Dist2(2, 2))
 }
 ```
 
@@ -1143,8 +1146,9 @@ fmt.Println(Dist2(2, 2))
 
 ```go
 var x int
+
 func foo(y int) {
-x := 1
+    x := 1
 }
 ```
 
@@ -1161,14 +1165,15 @@ x := 1
 
 ```go
 func getMax(vals ...int) int {
-maxV := -1
-for _, v := range vals {
-if v > maxV {
-maxV = v
-} 
-}
+    maxV := -1
+    
+    for _, v := range vals {
+        if v > maxV {
+            maxV = v
+        } 
+    }
 
-return maxV
+    return maxV
 }
 ```
 
@@ -1176,9 +1181,9 @@ return maxV
 
 ```go
 func main() {
-fmt.Println(getMax(1, 2, 3, 4, 5))
-vslice := []{1, 3, 6, 4}
-fmt.Println(getMax(vslice...))
+    fmt.Println(getMax(1, 2, 3, 4, 5))
+    vslice := []{1, 3, 6, 4}
+    fmt.Println(getMax(vslice...))
 }
 ```
 
@@ -1192,9 +1197,8 @@ fmt.Println(getMax(vslice...))
 
 ```go
 func func main() {
-defer fmt.Println("bye!")
-
-defer fmt.Println("Hello!")
+    defer fmt.Println("bye!")
+    defer fmt.Println("Hello!")
 }
 ```
 
@@ -1204,10 +1208,10 @@ defer fmt.Println("Hello!")
 
 ```go
 func func main() {
-i := 1
-defer fmt.Println(i+1)
-i++
-defer fmt.Println("Hello")
+    i := 1
+    defer fmt.Println(i+1)
+    i++
+    defer fmt.Println("Hello")
 }
 ```
 
@@ -1244,12 +1248,12 @@ defer fmt.Println("Hello")
 type MyInt int
 
 func (mi MyInt) Double () int {
-return int(mi*2)
+    return int(mi*2)
 }
 
 func main() {
-v := MyInt(3)
-fmt.Println(v.Double())
+    v := MyInt(3)
+    fmt.Println(v.Double())
 }
 ```
 
@@ -1266,8 +1270,8 @@ fmt.Println(v.Double())
 
 ```go
 type Point struct {
-x float64
-y float64
+    x float64
+    y float64
 }
 ```
 
@@ -1278,20 +1282,20 @@ y float64
 - Structs and methods together allow arbitrary data and functions to be composed
 
 ```go
-func (p Point) DistoToOrigin() {
-t := math.Pow(p.x, 2) + math.Pow(p.y, 2)
-return math.Sqrt(t)
+func (p Point) DistToOrigin() {
+    t := math.Pow(p.x, 2) + math.Pow(p.y, 2)
+    return math.Sqrt(t)
 }
 
 func main() {
-p1 := Point(3, 4)
-fmt.Println(p1.DistToOrigin())
+    p1 := Point{x: 3, y: 4}
+    fmt.Println(p1.DistToOrigin())
 }
 ```
 
 ### Controlling data access
 
-- Can defined **public function** to allow access to hidden data
+- Can define **public function** to allow access to hidden data
 
 ```go
 package data
@@ -1338,25 +1342,25 @@ func (p *Point) InitMe(xn, yn float64) {
 
 ```go
 func (p *Point) Scale(v float64) {
-p.x = p.x * v
-p.y = p.y * v
+    p.x = p.x * v
+    p.y = p.y * v
 }
 
 func (p *Point) PrintMe() {
-fmt.Println(p.x, p.y)
+    fmt.Println(p.x, p.y)
 }
 
 func main() {
-var p data.Point
-p.InitMe(3, 4)
-p.Scale(2)
-p.PrintMe()
+    var p data.Point
+    p.InitMe(3, 4)
+    p.Scale(2)
+    p.PrintMe()
 }
 ```
 
 - Access to hidden fields only through public methods
 
-### Limitation fo methods
+### Limitation of methods
 
 - Receiver is passed implicitly as an argument to the method
 - Method cannot modify the data inside the receiver
@@ -1364,8 +1368,8 @@ p.PrintMe()
 
 ```go
 func main() {
-p1 := Point{3, 4}
-p1.OffsetX(5)
+    p1 := Point{3, 4}
+    p1.OffsetX(5)
 }
 ```
 
@@ -1376,8 +1380,8 @@ p1.OffsetX(5)
 ```go
 type Image [100][100]int
 func main() {
-i1 := GrabImage()
-i1.BlurImage()
+    i1 := GrabImage()
+    i1.BlurImage()
 }
 ```
 
@@ -1387,7 +1391,7 @@ i1.BlurImage()
 
 ```go
 func (p *Point) OffsetX(v float64) {
-p.x = p.x + v
+    p.x = p.x + v
 }
 ```
 
@@ -1437,8 +1441,8 @@ p.x = p.x + v
 
 ```go
 type Shape2D interface {
-Area() float64
-Perimeter() float64
+    Area() float64
+    Perimeter() float64
 }
 
 type Triangle {...}
@@ -1468,8 +1472,7 @@ No need to state it explicity
     - Interface value has 2 components
         1. Dynamic type: Concrete type which is assigned to
         2. Dynamic value: Value of the dynamic type
-
-        - Interface value is actually a pair (dynamic type and dynamic value)
+            - Interface value is actually a pair (dynamic type and dynamic value)
 - An interface can have a nil dynamic value
 
 ```go
@@ -1486,11 +1489,11 @@ s1 = d1
 
 ```go
 func (d *Dog) Speak() {
-if d == nil {
-fmt.Println("")
-} else {
-fmt.Println(d.name)
-}
+    if d == nil {
+        fmt.Println("")
+    } else {
+        fmt.Println(d.name)
+    }
 }
 
 var s1 Speaker
@@ -1513,7 +1516,7 @@ s1.Speak()
 
 ```go
 func PrintMe(val interface{}) {
-fmt.Println(val)
+    fmt.Println(val)
 }
 ```
 
@@ -1539,14 +1542,15 @@ fmt.Println(val)
 
 ```go
 func DrawShape(s Shape2D) bool {
-rect, ok := s.(Rectangle)
-if ok {
-DrawRect(rect)
-}
-tri, ok := s.(Triangle)
-if ok {
-DrawTriangle(tri)
-}
+    rect, ok := s.(Rectangle)
+    if ok {
+        DrawRect(rect)
+    }
+    
+    tri, ok := s.(Triangle)
+    if ok {
+        DrawTriangle(tri)
+    }
 }
 ```
 
@@ -1563,11 +1567,11 @@ DrawTriangle(tri)
 ```go
 func DrawShape(s Shape2D) {
 switch sh := s.(type) {
-case Rectangle:
-DrawRect(sh)
-case Triangle:
-DrawTriangle(sh)
-}
+    case Rectangle:
+        DrawRect(sh)
+    case Triangle:
+        DrawTriangle(sh)
+    }
 }
 ```
 
@@ -1579,7 +1583,7 @@ DrawTriangle(sh)
 
 ```go
 type error interface {
-Error() string
+    Error() string
 }
 ```
 
@@ -1645,9 +1649,8 @@ Concurrency and parallelism are two closely ideas.
 - C is capacitance (related to transistor size)
 - F is the clock frequency
 - V is voltage swing (from lo to high)
-
-- Voltage is important
-- 0 to 5V uses much more power than 0 to 1.3V
+  - Voltage is important
+  - 0 to 5V uses much more power than 0 to 1.3V
 
 #### Dennard Scaling
 
@@ -1870,7 +1873,7 @@ func func main() {
 ### Synchronization
 
 - Using **global event** whose execution is viewed by all threads, simultaneously
-- In general synchronization is bad becaus it reduces your performance, but it is necessary.
+- In general synchronization is bad because it reduces your performance, but it is necessary.
 
 ### Sync WaitGroups
 
@@ -1888,6 +1891,7 @@ func foo(wg *sync.Waitgroup) {
 	fmt.Print("New routine")
 	wg.Done()
 }
+
 func main() {
     var wgsync.WaitGroup
     wg.Add(1)
@@ -2004,7 +2008,7 @@ fmt.Println(a*b)
 
 - May have a choice of which data to use
   - i.e. First-come first-served
-- Use the `select` statement to wait on the irst data from a set of channels
+- Use the `select` statement to wait on the first data from a set of channels
 ```go
 select {
     case a = <- c1:
@@ -2017,6 +2021,7 @@ select {
 ### Select Send or Receive
 
 - May select either send or receive operations
+
 ```go
 select {
     case a = <- inchan:
@@ -2042,7 +2047,7 @@ for {
 
 ### Default Select 
 
-- May want a default operation to avoid bloking
+- May want a default operation to avoid blocking
 
 ```go
 select {
@@ -2064,7 +2069,7 @@ select {
 - Two goroutines writing to a shared variable can interfere with each other
 
 **Concurrency-Safe**
-- Function can be invoked concurrently without interfering with outher goroutines
+- Function can be invoked concurrently without interfering with other goroutines
 
 e.g.
 
@@ -2086,7 +2091,7 @@ func main() {
     fmt.Println(i)
 }
 ```
-- 2 goroutine write to `i`
+- 2 goroutines write to `i`
 - `i` should equal 2
 
 ### Granularity of Concurrency
@@ -2102,7 +2107,7 @@ func main() {
 
 - Don't let 2 goroutines write to a shared variable at the same time
 - Need to restrict possible interleavings
-- Access to share variables cannot be interleaved
+- Access to share variables cannot be interleaved  
 **Mutual Exclusion**
 - Code segments in different goroutines which cannot execute concurrently
 
@@ -2135,7 +2140,7 @@ func inc() {
 
 **Initialization**
 
-- mus happen once
+- must happen once
 - must happen before everything else
 
 - How do you perform initialization with multiple goroutines?
@@ -2144,12 +2149,12 @@ func inc() {
 ### Sync.Once
 
 - Has one method, `once.Do(f)`
-- Function `f` ti is called in multiple goroutines
+- Function `f` is called in multiple goroutines
 - All calls to `once.Do()` block until the first returns
   - Ensures that initialization executes first
 
 e.g.
-  - Make two goroutines, initalization only once
+  - Make two goroutines, initialization only once
   - Each goroutine executes `dostuff()`
 
 ```go
@@ -2244,7 +2249,7 @@ func main() {
 ![Dining Philosophers problem](./img/dining_philosophers.png)
 
 - Each chopstick is a mutex
-- Each philosopher is associated with a goroutine and two chopsitcks
+- Each philosopher is associated with a goroutine and two chopsticks
 
 ```go
 type ChopS struct { sync.Mutex }
@@ -2293,6 +2298,6 @@ func main() {
 
 `philos[i] = &Philo{CSticks[i], CSticks[(i+1)%5]}`
 
-- Philosopher 4 picks up chopsitck 0 before chopstick 4
+- Philosopher 4 picks up chopstick 0 before chopstick 4
 - Philosopher 4 blocks allowing philosopher 3 eat
 - No deadlock, but philosopher 4 may starve (starvation problem)
